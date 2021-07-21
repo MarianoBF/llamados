@@ -1,3 +1,9 @@
+const contenedorEnCurso = document.getElementById("contenedorLlamadasEnCurso");
+const contenedoLlamadas = document.getElementById("contenedorLlamadas");
+const contenedorEnEspera = document.getElementById(
+  "contenedorLlamadasEnEspera"
+);
+
 let llamadas = [];
 
 function generarLlamadas(cantidad) {
@@ -8,12 +14,18 @@ function generarLlamadas(cantidad) {
     const minutos = Math.floor(Math.random() * 60);
     const segundos = Math.floor(Math.random() * 60);
     const horaInicio = new Date(2020, 03, 17, 00, 00, segundos);
-    llamada = {id: numLlamada, inicio: horaInicio, duracion: duracion};
+    llamada = { id: numLlamada, inicio: horaInicio, duracion: duracion };
     llamadas.push(llamada);
   }
 }
 
 generarLlamadas(40);
+
+for (let llamada of llamadas) {
+  let detalleLlamada = document.createElement("p");
+  detalleLlamada.innerText = `ID: ${llamada.id} Inicio: ${llamada.inicio} Duracion: ${llamada.duracion}`;
+  contenedoLlamadas.append(detalleLlamada);
+}
 
 //Cuantos tiene el callcenter para que nadie espere más de 10 segundos? O de "x" segundos?
 
@@ -31,14 +43,23 @@ function calcularLlamadas(llamadas, operadores) {
   let length = time + 60; //ajustar
 
   for (time; time < length; time++) {
-    const logLlamadas = llamadasEnCurso.map(item=>item.id)
-    console.log(time)
-    console.table([["operadores disponibles", ...operadoresDisponibles],["llamadas activas", ...logLlamadas]])
+    const logLlamadas = llamadasEnCurso.map((item) => item.id);
+    // console.log(time);
+    // console.table([
+    //   ["operadores disponibles", ...operadoresDisponibles],
+    //   ["llamadas activas", ...logLlamadas],
+    // ]);
     if (llamadasEnCurso.length > 0) {
       //1ro chequea si alguna llamada en curso se terminó
       llamadasEnCurso.forEach((llamada, i) => {
         if (llamada.fin <= time) {
           llamadasEnCurso.splice(i, 1);
+          console.log(
+            document.getElementById(llamada.id),
+            llamada.id,
+            "terminó"
+          );
+          document.getElementById(llamada.id).classList.add("llamadaTerminada");
           // console.log(llamadasEnCurso);
           operadoresDisponibles.push(1);
           // console.log(operadoresDisponibles);
@@ -49,7 +70,7 @@ function calcularLlamadas(llamadas, operadores) {
     if (llamadasEnEspera.length > 0) {
       //2do si hay pendientes entra la llamada en espera
       if (operadoresDisponibles.indexOf(1) === -1) {
-        llamadasEnEspera.forEach(item => (item.espera += 1));
+        llamadasEnEspera.forEach((item) => (item.espera += 1));
         // console.log(llamadasEnEspera);
       } else {
         // console.log(operadoresDisponibles, llamadasEnEspera)
@@ -63,7 +84,13 @@ function calcularLlamadas(llamadas, operadores) {
             llamadasEnEspera[0].espera > esperaMax
               ? (esperaMax = llamadasEnEspera[0].espera)
               : null;
-            llamadasEnCurso.push(llamadasEnEspera.shift());
+
+            llamadaAMover = llamadasEnEspera.shift();
+            llamadasEnCurso.push(llamadaAMover);
+            let detalleLlamadaAMover = document.createElement("p");
+            detalleLlamadaAMover.id = llamadaAMover.id;
+            detalleLlamadaAMover.innerText = `ID: ${llamadaAMover.id} Inicio: ${llamadaAMover.inicio} Duración: ${llamadaAMover.fin} Espera: ${llamadaAMover.espera}`;
+            contenedorEnCurso.append(detalleLlamadaAMover);
             operadoresDisponibles.pop();
             console.log("habilitar operador llamada en espera");
           }
@@ -85,6 +112,10 @@ function calcularLlamadas(llamadas, operadores) {
             fin: time + llamada.duracion,
           };
           llamadasEnCurso.push(agregar);
+          let detalleLlamadaAMover = document.createElement("p");
+          detalleLlamadaAMover.id = agregar.id;
+          detalleLlamadaAMover.innerText = `ID: ${agregar.id} Inicio: ${agregar.inicio} Duración: ${agregar.fin} Entró directo`;
+          contenedorEnCurso.append(detalleLlamadaAMover);
           // console.log(llamadasEnCurso, operadoresDisponibles);
           personasHablando++;
           if (personasHablando > maxOperadoresOcupados) {
@@ -94,9 +125,14 @@ function calcularLlamadas(llamadas, operadores) {
           const enEspera = {
             id: llamada.id,
             inicio: time,
+            // TODO: Revisar PERO si no empezo?
             fin: time + llamada.duracion,
             espera: 0,
           };
+          let detalleLlamadaAMover = document.createElement("p");
+          detalleLlamadaAMover.id = enEspera.id;
+          detalleLlamadaAMover.innerText = `ID: ${enEspera.id} Inicio: ${enEspera.inicio}`;
+          contenedorEnEspera.append(detalleLlamadaAMover);
           llamadasEnEspera.push(enEspera);
           console.log(
             "no hay operadores disponibles, poniendo llamada en espera"
@@ -111,4 +147,11 @@ function calcularLlamadas(llamadas, operadores) {
 
 const opsDisp = 3;
 let [ops, esp] = calcularLlamadas(llamadas, opsDisp);
-console.log("max ops simultáneos: ", ops, "max ops disponibles: ", opsDisp, "max tiempo de espera (segs): ", esp);
+console.log(
+  "max ops simultáneos: ",
+  ops,
+  "max ops disponibles: ",
+  opsDisp,
+  "max tiempo de espera (segs): ",
+  esp
+);
