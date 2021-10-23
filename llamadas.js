@@ -24,7 +24,7 @@ generarLlamadas(40);
 for (let llamada of llamadas) {
   let detalleLlamada = document.createElement("p");
   detalleLlamada.id = "llamada"+llamada.id;
-  detalleLlamada.innerText = `ID: ${llamada.id} Inicio: ${llamada.inicio} Duracion: ${llamada.duracion}`;
+  detalleLlamada.innerText = `ID: ${llamada.id} Inicio: ${Number(llamada.inicio)/1000} Duracion: ${llamada.duracion}`;
   contenedoLlamadas.append(detalleLlamada);
 }
 
@@ -35,6 +35,9 @@ function calcularLlamadas(llamadas, operadores) {
   let operadoresDisponibles = new Array(operadores).fill(1);
   let maxOperadoresOcupados = 0;
   let esperaMax = 0;
+  let contador = 0;
+  let llamadasEnCursoContador = 0;
+  let llamadasEnEsperaContador = 0;
   let llamadasEnCurso = [];
   let llamadasEnEspera = [];
   let llamadasOrdenadas = llamadas.sort((a, b) =>
@@ -89,9 +92,11 @@ function calcularLlamadas(llamadas, operadores) {
             let llamadaAMover = llamadasEnEspera.shift();
             llamadaAMover.fin = time + llamadaAMover.duracion;
             llamadasEnCurso.push(llamadaAMover);
+            contador++
+            llamadasEnCursoContador++
             let detalleLlamadaAMover = document.createElement("p");
             detalleLlamadaAMover.id = "activa"+llamadaAMover.id;
-            detalleLlamadaAMover.innerText = `ID: ${llamadaAMover.id} Inicio: ${llamadaAMover.inicio} Duración: ${llamadaAMover.fin} Espera: ${llamadaAMover.espera}`;
+            detalleLlamadaAMover.innerText = `ID: ${llamadaAMover.id} Inicio: ${llamadaAMover.inicio} Duración: ${llamadaAMover.fin-llamadaAMover.inicio} segundos - Espera: ${llamadaAMover.espera} segundos`;
             contenedorEnCurso.append(detalleLlamadaAMover);
             operadoresDisponibles.pop();
             console.log("habilitar operador llamada en espera");
@@ -114,9 +119,11 @@ function calcularLlamadas(llamadas, operadores) {
             fin: time + llamada.duracion,
           };
           llamadasEnCurso.push(agregar);
+          contador++
+          llamadasEnCursoContador++
           let detalleLlamadaAMover = document.createElement("p");
           detalleLlamadaAMover.id = "activa"+agregar.id;
-          detalleLlamadaAMover.innerText = `ID: ${agregar.id} Inicio: ${agregar.inicio} Duración: ${agregar.fin} Entró directo`;
+          detalleLlamadaAMover.innerText = `ID: ${agregar.id} Inicio: ${agregar.inicio} Duración: ${agregar.fin-agregar.inicio} segundos. Entró directo`;
           contenedorEnCurso.append(detalleLlamadaAMover);
           // console.log(llamadasEnCurso, operadoresDisponibles);
           personasHablando++;
@@ -135,6 +142,7 @@ function calcularLlamadas(llamadas, operadores) {
           detalleLlamadaAMover.innerText = `ID: ${enEspera.id} Inicio: ${enEspera.inicio}`;
           contenedorEnEspera.append(detalleLlamadaAMover);
           llamadasEnEspera.push(enEspera);
+          llamadasEnEsperaContador++
           console.log(
             "no hay operadores disponibles, poniendo llamada en espera"
           );
@@ -142,6 +150,8 @@ function calcularLlamadas(llamadas, operadores) {
       }
     });
   }
+
+  console.log("contadorEspera", llamadasEnEsperaContador, "contadorCurso", llamadasEnCursoContador)
 
   return [maxOperadoresOcupados, esperaMax];
 }
@@ -156,3 +166,5 @@ console.log(
   "max tiempo de espera (segs): ",
   esp
 );
+
+
