@@ -6,7 +6,7 @@ function generarLlamadas(cantidad) {
       const hora = Math.floor(Math.random() * 24);
       const minutos = Math.floor(Math.random() * 60);
       const segundos = Math.floor(Math.random() * 60);
-      const horaInicio = new Date(2020, 03, 17, 00, 00, segundos);
+      const horaInicio = new Date(2020, 03, 17, 00, 00, numLlamada);
       llamada = { id: numLlamada, inicio: horaInicio, duracion: duracion };
       llamadas.push(llamada);
     }
@@ -16,6 +16,6 @@ function generarLlamadas(cantidad) {
   function generarPActiva(agregar, directo) {
     let detalleLlamadaAMover = document.createElement("p");
     detalleLlamadaAMover.id = "activa"+agregar.id;
-    detalleLlamadaAMover.innerText = `ID: ${agregar.id} Inicio: ${agregar.inicio} Duración: ${agregar.fin-agregar.inicio} segundos. ${directo? 'Entró directo' : '' }`;
+    detalleLlamadaAMover.innerText = `ID: ${agregar.id} Inicio: ${agregar.inicio} Duración: ${agregar.fin-agregar.inicio} segundos. ${directo? 'Entró directo' : 'Estuvo en espera' }`;
     return detalleLlamadaAMover
 }
