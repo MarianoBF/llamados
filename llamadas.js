@@ -79,10 +79,7 @@ function calcularLlamadas(llamadas, operadores) {
             llamadasEnCurso.push(llamadaAMover);
             contador++
             llamadasEnCursoContador++
-            let detalleLlamadaAMover = document.createElement("p");
-            detalleLlamadaAMover.id = "activa"+llamadaAMover.id;
-            detalleLlamadaAMover.innerText = `ID: ${llamadaAMover.id} Inicio: ${llamadaAMover.inicio} Duración: ${llamadaAMover.fin-llamadaAMover.inicio} segundos - Espera: ${llamadaAMover.espera} segundos`;
-            contenedorEnCurso.append(detalleLlamadaAMover);
+            contenedorEnCurso.append(generarPActiva(llamadaAMover));
             operadoresDisponibles.pop();
             console.log("habilitar operador llamada en espera");
           }
@@ -106,10 +103,7 @@ function calcularLlamadas(llamadas, operadores) {
           llamadasEnCurso.push(agregar);
           contador++
           llamadasEnCursoContador++
-          let detalleLlamadaAMover = document.createElement("p");
-          detalleLlamadaAMover.id = "activa"+agregar.id;
-          detalleLlamadaAMover.innerText = `ID: ${agregar.id} Inicio: ${agregar.inicio} Duración: ${agregar.fin-agregar.inicio} segundos. Entró directo`;
-          contenedorEnCurso.append(detalleLlamadaAMover);
+          contenedorEnCurso.append(generarPActiva(agregar));
           // console.log(llamadasEnCurso, operadoresDisponibles);
           personasHablando++;
           if (personasHablando > maxOperadoresOcupados) {
