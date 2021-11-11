@@ -13,9 +13,9 @@ function generarLlamadas(cantidad) {
     return llamadas;
   }
 
-  function generarPActiva(agregar) {
+  function generarPActiva(agregar, directo) {
     let detalleLlamadaAMover = document.createElement("p");
     detalleLlamadaAMover.id = "activa"+agregar.id;
-    detalleLlamadaAMover.innerText = `ID: ${agregar.id} Inicio: ${agregar.inicio} Duración: ${agregar.fin-agregar.inicio} segundos. Entró directo`;
+    detalleLlamadaAMover.innerText = `ID: ${agregar.id} Inicio: ${agregar.inicio} Duración: ${agregar.fin-agregar.inicio} segundos. ${directo? 'Entró directo' : '' }`;
     return detalleLlamadaAMover
 }

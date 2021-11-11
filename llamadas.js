@@ -79,7 +79,7 @@ function calcularLlamadas(llamadas, operadores) {
             llamadasEnCurso.push(llamadaAMover);
             contador++
             llamadasEnCursoContador++
-            contenedorEnCurso.append(generarPActiva(llamadaAMover));
+            contenedorEnCurso.append(generarPActiva(llamadaAMover, false));
             operadoresDisponibles.pop();
             console.log("habilitar operador llamada en espera");
           }
@@ -103,7 +103,7 @@ function calcularLlamadas(llamadas, operadores) {
           llamadasEnCurso.push(agregar);
           contador++
           llamadasEnCursoContador++
-          contenedorEnCurso.append(generarPActiva(agregar));
+          contenedorEnCurso.append(generarPActiva(agregar, true));
           // console.log(llamadasEnCurso, operadoresDisponibles);
           personasHablando++;
           if (personasHablando > maxOperadoresOcupados) {
@@ -135,7 +135,7 @@ function calcularLlamadas(llamadas, operadores) {
   return [maxOperadoresOcupados, esperaMax];
 }
 
-const opsDisp = 3;
+const opsDisp = 5;
 let [ops, esp] = calcularLlamadas(llamadas, opsDisp);
 console.log(
   "max ops simultáneos: ",
