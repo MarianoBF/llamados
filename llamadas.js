@@ -3,14 +3,14 @@ const contenedoLlamadas = document.getElementById("contenedorLlamadas");
 const contenedorEnEspera = document.getElementById(
   "contenedorLlamadasEnEspera"
 );
+const contenedorPerdidas = document.getElementById(
+  "contenedorLlamadasPerdidas"
+);
 
 let llamadas = generarLlamadas(40)
 
 for (let llamada of llamadas) {
-  let detalleLlamada = document.createElement("p");
-  detalleLlamada.id = "llamada"+llamada.id;
-  detalleLlamada.innerText = `ID: ${llamada.id} Inicio: ${Number(llamada.inicio)/1000} Duracion: ${llamada.duracion}`;
-  contenedoLlamadas.append(detalleLlamada);
+  contenedoLlamadas.append(dibujarLlamada(llamada));
 }
 
 //Cuantos tiene el callcenter para que nadie espere más de 10 segundos? O de "x" segundos?
@@ -29,7 +29,7 @@ function calcularLlamadas(llamadas, operadores) {
     a.inicio >= b.inicio ? 1 : -1
   );
   let time = 1587092400;
-  let length = time + 60; //ajustar
+  let length = time + 170; //ajustar
 
   for (time; time < length; time++) {
     const logLlamadas = llamadasEnCurso.map((item) => item.id);
@@ -79,7 +79,7 @@ function calcularLlamadas(llamadas, operadores) {
             llamadasEnCurso.push(llamadaAMover);
             contador++
             llamadasEnCursoContador++
-            contenedorEnCurso.append(generarPActiva(llamadaAMover, false));
+            contenedorEnCurso.append(dibujarActiva(llamadaAMover, false));
             operadoresDisponibles.pop();
             console.log("habilitar operador llamada en espera");
           }
@@ -103,7 +103,7 @@ function calcularLlamadas(llamadas, operadores) {
           llamadasEnCurso.push(agregar);
           contador++
           llamadasEnCursoContador++
-          contenedorEnCurso.append(generarPActiva(agregar, true));
+          contenedorEnCurso.append(dibujarActiva(agregar, true));
           // console.log(llamadasEnCurso, operadoresDisponibles);
           personasHablando++;
           if (personasHablando > maxOperadoresOcupados) {
@@ -128,6 +128,10 @@ function calcularLlamadas(llamadas, operadores) {
         }
       }
     });
+  }
+
+  for (llamada of llamadasEnEspera) {
+    contenedorPerdidas.append(dibujarPerdida(llamada))
   }
 
   console.log("contadorEspera", llamadasEnEsperaContador, "contadorCurso", llamadasEnCursoContador)
