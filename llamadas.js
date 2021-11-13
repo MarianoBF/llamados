@@ -23,6 +23,11 @@ function runLlamadas() {
 
   let llamadas = generarLlamadas(cantLlamadas);
 
+  for (let llamada of llamadas) {
+    console.log("aaa")
+    contenedorLlamadas.append(dibujarLlamada(llamada));
+  }
+
   let [ops, esp] = calcularLlamadas(llamadas, cantOperadores);
 
   console.log(
@@ -34,9 +39,6 @@ function runLlamadas() {
     esp
   );
 
-  for (let llamada of llamadas) {
-    contenedorLlamadas.append(dibujarLlamada(llamada));
-  }
 }
 
 //Cuantos tiene el callcenter para que nadie espere más de 10 segundos? O de "x" segundos?

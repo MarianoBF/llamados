@@ -8,7 +8,7 @@ function generarLlamadas(cantidad) {
     const minutos = Math.floor(Math.random() * 60);
     segundos = segundos + Math.floor(Math.random() * 3) + 1;
     const horaInicio = new Date(2020, 03, 17, 00, 00, segundos);
-    llamada = { id: numLlamada, inicio: horaInicio, duracion: duracion };
+    let llamada = { id: numLlamada, inicio: horaInicio, duracion: duracion };
     llamadas.push(llamada);
   }
   return llamadas;
@@ -28,7 +28,7 @@ function dibujarActiva(agregar, directo) {
   detalleLlamadaAMover.id = "activa" + agregar.id;
   detalleLlamadaAMover.innerText = `ID: ${agregar.id} Inicio: ${
     agregar.inicio
-  } Duración: ${agregar.fin - agregar.inicio} segundos. ${
+  } Duración: ${agregar.fin - agregar.inicio} seg. ${
     directo ? "Entró directo" : "Estuvo en espera"
   }`;
   return detalleLlamadaAMover;
@@ -39,7 +39,7 @@ function dibujarPerdida(llamada) {
   detalleLlamada.id = "llamada" + llamada.id;
   detalleLlamada.innerText = `ID: ${llamada.id} Inicio: ${
     Number(llamada.inicio) / 1000
-  } Duracion: ${llamada.duracion} Quedó perdida`;
+  } Duracion: ${llamada.duracion} seg. Quedó perdida`;
   return detalleLlamada;
 }
 
