@@ -15,6 +15,7 @@ startButton.addEventListener('click', ()=>runLlamadas())
 function runLlamadas() {
   const cantLlamadas = document.getElementById("cantLlamadas").value;
   const cantOperadores = document.getElementById("cantOperadores").value;
+  const plazo = document.getElementById("segundosPlazo").value;
 
   contenedorEnCurso.innerHTML = "";
   contenedorEnEspera.innerHTML = "";
@@ -24,11 +25,10 @@ function runLlamadas() {
   let llamadas = generarLlamadas(cantLlamadas);
 
   for (let llamada of llamadas) {
-    console.log("aaa")
     contenedorLlamadas.append(dibujarLlamada(llamada));
   }
 
-  let [ops, esp] = calcularLlamadas(llamadas, cantOperadores);
+  let [ops, esp] = calcularLlamadas(llamadas, cantOperadores, plazo);
 
   console.log(
     "max ops simultáneos: ",
@@ -43,7 +43,8 @@ function runLlamadas() {
 
 //Cuantos tiene el callcenter para que nadie espere más de 10 segundos? O de "x" segundos?
 
-function calcularLlamadas(llamadas, operadores) {
+function calcularLlamadas(llamadas, operadores, plazo) {
+  console.log("inputs calcular llamadas: ", llamadas, operadores, plazo)
   let personasHablando = 0;
   let operadoresDisponibles = new Array(operadores).fill(1);
   let maxOperadoresOcupados = 0;
@@ -57,8 +58,8 @@ function calcularLlamadas(llamadas, operadores) {
     a.inicio >= b.inicio ? 1 : -1
   );
   let time = 1587092400;
-  let length = time + 170; //ajustar
-
+  let length = time + parseInt(plazo); 
+  
   for (time; time < length; time++) {
     const logLlamadas = llamadasEnCurso.map((item) => item.id);
 
