@@ -6,8 +6,11 @@ const contenedorEnEspera = document.getElementById(
 const contenedorPerdidas = document.getElementById(
   "contenedorLlamadasPerdidas"
 );
+const cantLlamadas = document.getElementById('cantLlamadas').value
 
-let llamadas = generarLlamadas(40)
+const cantOperadores = document.getElementById('cantOperadores').value
+
+let llamadas = generarLlamadas(cantLlamadas)
 
 for (let llamada of llamadas) {
   contenedoLlamadas.append(dibujarLlamada(llamada));
@@ -120,7 +123,7 @@ function calcularLlamadas(llamadas, operadores) {
   return [maxOperadoresOcupados, esperaMax];
 }
 
-const opsDisp = 5;
+const opsDisp = cantOperadores;
 let [ops, esp] = calcularLlamadas(llamadas, opsDisp);
 console.log(
   "max ops simultáneos: ",
