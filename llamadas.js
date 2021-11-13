@@ -1,19 +1,42 @@
 const contenedorEnCurso = document.getElementById("contenedorLlamadasEnCurso");
-const contenedoLlamadas = document.getElementById("contenedorLlamadas");
+const contenedorLlamadas = document.getElementById("contenedorLlamadas");
 const contenedorEnEspera = document.getElementById(
   "contenedorLlamadasEnEspera"
 );
 const contenedorPerdidas = document.getElementById(
   "contenedorLlamadasPerdidas"
 );
-const cantLlamadas = document.getElementById('cantLlamadas').value
 
-const cantOperadores = document.getElementById('cantOperadores').value
+const startButton = document.getElementById('startButton');
 
-let llamadas = generarLlamadas(cantLlamadas)
+startButton.addEventListener('click', ()=>runLlamadas())
 
-for (let llamada of llamadas) {
-  contenedoLlamadas.append(dibujarLlamada(llamada));
+
+function runLlamadas() {
+  const cantLlamadas = document.getElementById("cantLlamadas").value;
+  const cantOperadores = document.getElementById("cantOperadores").value;
+
+  contenedorEnCurso.innerHTML = "";
+  contenedorEnEspera.innerHTML = "";
+  contenedorLlamadas.innerHTML = "";
+  contenedorPerdidas.innerHTML = "";
+
+  let llamadas = generarLlamadas(cantLlamadas);
+
+  let [ops, esp] = calcularLlamadas(llamadas, cantOperadores);
+
+  console.log(
+    "max ops simultáneos: ",
+    ops,
+    "max ops disponibles: ",
+    cantOperadores,
+    "max tiempo de espera (segs): ",
+    esp
+  );
+
+  for (let llamada of llamadas) {
+    contenedorLlamadas.append(dibujarLlamada(llamada));
+  }
 }
 
 //Cuantos tiene el callcenter para que nadie espere más de 10 segundos? O de "x" segundos?
@@ -42,14 +65,15 @@ function calcularLlamadas(llamadas, operadores) {
       llamadasEnCurso.forEach((llamada, i) => {
         if (llamada.fin <= time) {
           llamadasEnCurso.splice(i, 1);
-          document.getElementById("activa"+llamada.id).classList.add("llamadaTerminada");
+          document
+            .getElementById("activa" + llamada.id)
+            .classList.add("llamadaTerminada");
           operadoresDisponibles.push(1);
           personasHablando--;
         }
       });
     }
     if (llamadasEnEspera.length > 0) {
-
       //2do si hay pendientes entra la llamada en espera
       if (operadoresDisponibles.indexOf(1) === -1) {
         llamadasEnEspera.forEach((item) => (item.espera += 1));
@@ -66,8 +90,8 @@ function calcularLlamadas(llamadas, operadores) {
             let llamadaAMover = llamadasEnEspera.shift();
             llamadaAMover.fin = time + llamadaAMover.duracion;
             llamadasEnCurso.push(llamadaAMover);
-            contador++
-            llamadasEnCursoContador++
+            contador++;
+            llamadasEnCursoContador++;
             contenedorEnCurso.append(dibujarActiva(llamadaAMover, false));
             operadoresDisponibles.pop();
             console.log("habilitar operador llamada en espera");
@@ -77,7 +101,6 @@ function calcularLlamadas(llamadas, operadores) {
     }
 
     llamadasOrdenadas.forEach((llamada, i) => {
-
       //3ro chequea si hay nuevas llamadas para entrar a en curso o en espera si no hay ops
       if (llamada.inicio.getTime() / 1000 === time) {
         llamadasOrdenadas.splice(i, 1);
@@ -89,8 +112,8 @@ function calcularLlamadas(llamadas, operadores) {
             fin: time + llamada.duracion,
           };
           llamadasEnCurso.push(agregar);
-          contador++
-          llamadasEnCursoContador++
+          contador++;
+          llamadasEnCursoContador++;
           contenedorEnCurso.append(dibujarActiva(agregar, true));
           personasHablando++;
           if (personasHablando > maxOperadoresOcupados) {
@@ -105,7 +128,7 @@ function calcularLlamadas(llamadas, operadores) {
           };
           contenedorEnEspera.append(dibujarEnEspera(enEspera));
           llamadasEnEspera.push(enEspera);
-          llamadasEnEsperaContador++
+          llamadasEnEsperaContador++;
           console.log(
             "no hay operadores disponibles, poniendo llamada en espera"
           );
@@ -115,23 +138,15 @@ function calcularLlamadas(llamadas, operadores) {
   }
 
   for (llamada of llamadasEnEspera) {
-    contenedorPerdidas.append(dibujarPerdida(llamada))
+    contenedorPerdidas.append(dibujarPerdida(llamada));
   }
 
-  console.log("contadorEspera", llamadasEnEsperaContador, "contadorCurso", llamadasEnCursoContador)
+  console.log(
+    "contadorEspera",
+    llamadasEnEsperaContador,
+    "contadorCurso",
+    llamadasEnCursoContador
+  );
 
   return [maxOperadoresOcupados, esperaMax];
 }
-
-const opsDisp = cantOperadores;
-let [ops, esp] = calcularLlamadas(llamadas, opsDisp);
-console.log(
-  "max ops simultáneos: ",
-  ops,
-  "max ops disponibles: ",
-  opsDisp,
-  "max tiempo de espera (segs): ",
-  esp
-);
-
-
