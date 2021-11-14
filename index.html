@@ -9,14 +9,21 @@
 </head>
 <body>
     <label>Cantidad Operadores
-        <input type="number" id="cantOperadores" value="5">
+        <input type="number" id="cantOperadores" value="7">
     </label>
     <label>Cantidad Llamadas
-        <input type="number" id="cantLlamadas" value="40">
+        <input type="number" id="cantLlamadas" value="30">
     </label>
     <label>Plazo para atender (segundos)
-        <input type="number" id="segundosPlazo" value="180">
+        <input type="number" id="segundosPlazo" value="240">
     </label>
+    <label>Duración mínima de la llamada (segundos)
+        <input type="number" id="minDuracion" value="30">
+    </label>
+    <label>Duración máxima de la llamada (segundos)
+        <input type="number" id="maxDuracion" value="70">
+    </label>
+
     <button id="startButton">Generar</button>
     <h1>Llamadas</h1>
     <div id="contenedorLlamadas" class="container"></div>

@@ -14,6 +14,9 @@ startButton.addEventListener('click', ()=>runLlamadas())
 
 function runLlamadas() {
   const cantLlamadas = document.getElementById("cantLlamadas").value;
+  const minDuracion = document.getElementById("minDuracion").value;
+  const maxDuracion = document.getElementById("maxDuracion").value;
+  
   const cantOperadores = document.getElementById("cantOperadores").value;
   const plazo = document.getElementById("segundosPlazo").value;
 
@@ -22,7 +25,7 @@ function runLlamadas() {
   contenedorLlamadas.innerHTML = "";
   contenedorPerdidas.innerHTML = "";
 
-  let llamadas = generarLlamadas(cantLlamadas);
+  let llamadas = generarLlamadas(cantLlamadas, minDuracion, maxDuracion);
 
   for (let llamada of llamadas) {
     contenedorLlamadas.append(dibujarLlamada(llamada));
