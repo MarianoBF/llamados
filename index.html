@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,26 +8,39 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
-<body>
-    <label>Cantidad Operadores
-        <input type="number" id="cantOperadores" value="7">
-    </label>
-    <label>Cantidad Llamadas
-        <input type="number" id="cantLlamadas" value="30">
-    </label>
-    <label>Plazo para atender (segundos)
-        <input type="number" id="segundosPlazo" value="240">
-    </label>
-    <label>Duración mínima de la llamada (segundos)
-        <input type="number" id="minDuracion" value="30">
-    </label>
-    <label>Duración máxima de la llamada (segundos)
-        <input type="number" id="maxDuracion" value="70">
-    </label>
 
-    <button id="startButton">Generar</button>
+<body>
+    <div class="opcionesContainer">
+        <label>Cantidad Operadores
+            <input type="number" id="cantOperadores" value="7">
+        </label>
+        <label>Cantidad Llamadas
+            <input type="number" id="cantLlamadas" value="30">
+        </label>
+        <label>Plazo para atender (seg)
+            <input type="number" id="segundosPlazo" value="240">
+        </label>
+        <label>Duración mínima de la llamada (seg)
+            <input type="number" id="minDuracion" value="30">
+        </label>
+        <label>Duración máxima de la llamada (seg)
+            <input type="number" id="maxDuracion" value="70">
+        </label>
+        <button id="startButton">Generar</button>
+    </div>
     <h1>Llamadas</h1>
-    <div id="contenedorLlamadas" class="container"></div>
+    <div id="contenedorLlamadas" class="container">
+
+    </div>
+    <hr>
+    <div class="container">
+        <h2>Máximos operadores simultáneos/totales</h2>
+        <h2>Máximo tiempo de Espera</h2>
+        <h2>Llamados totales/atendidos/perdidos</h2>
+        <div id="cantOps"></div>
+        <div id="tEspera"></div>
+        <div id="cantLlam"></div>
+    </div>
     <hr>
     <div class="container">
         <h2>Llamadas que estuvieron en espera</h2>
@@ -39,4 +53,5 @@
     <script src="helpers.js"></script>
     <script src="llamadas.js"></script>
 </body>
+
 </html>

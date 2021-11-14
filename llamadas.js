@@ -6,6 +6,9 @@ const contenedorEnEspera = document.getElementById(
 const contenedorPerdidas = document.getElementById(
   "contenedorLlamadasPerdidas"
 );
+const cantOps = document.getElementById("cantOps");
+const tEspera = document.getElementById("tEspera");
+const cantLlam = document.getElementById("cantLlam");
 
 const startButton = document.getElementById('startButton');
 
@@ -31,7 +34,11 @@ function runLlamadas() {
     contenedorLlamadas.append(dibujarLlamada(llamada));
   }
 
-  let [ops, esp] = calcularLlamadas(llamadas, cantOperadores, plazo);
+  let [ops, esp, atend, perd] = calcularLlamadas(llamadas, cantOperadores, plazo);
+
+  cantOps.innerText = ops + ' de ' + cantOperadores ;
+  tEspera.innerText = esp + ' segundos'
+  cantLlam.innerText = cantLlamadas + ' / ' + atend  + ' / ' + perd
 
   console.log(
     "max ops simultáneos: ",
@@ -154,5 +161,5 @@ function calcularLlamadas(llamadas, operadores, plazo) {
     llamadasEnCursoContador
   );
 
-  return [maxOperadoresOcupados, esperaMax];
+  return [maxOperadoresOcupados, esperaMax, llamadasEnCursoContador, llamadasEnEsperaContador];
 }
