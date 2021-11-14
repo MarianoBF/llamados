@@ -16,12 +16,12 @@ startButton.addEventListener('click', ()=>runLlamadas())
 
 
 function runLlamadas() {
-  const cantLlamadas = document.getElementById("cantLlamadas").value;
-  const minDuracion = document.getElementById("minDuracion").value;
-  const maxDuracion = document.getElementById("maxDuracion").value;
+  const cantLlamadas = +document.getElementById("cantLlamadas").value;
+  const minDuracion = +document.getElementById("minDuracion").value;
+  const maxDuracion = +document.getElementById("maxDuracion").value;
   
-  const cantOperadores = document.getElementById("cantOperadores").value;
-  const plazo = document.getElementById("segundosPlazo").value;
+  const cantOperadores = +document.getElementById("cantOperadores").value;
+  const plazo = +document.getElementById("segundosPlazo").value;
 
   contenedorEnCurso.innerHTML = "";
   contenedorEnEspera.innerHTML = "";
@@ -56,7 +56,8 @@ function runLlamadas() {
 function calcularLlamadas(llamadas, operadores, plazo) {
   console.log("inputs calcular llamadas: ", llamadas, operadores, plazo)
   let personasHablando = 0;
-  let operadoresDisponibles = new Array(operadores).fill(1);
+  let operadoresDisponibles = new Array(+operadores).fill(1);
+  console.log("ops", operadoresDisponibles)
   let maxOperadoresOcupados = 0;
   let esperaMax = 0;
   let contador = 0;
@@ -67,7 +68,7 @@ function calcularLlamadas(llamadas, operadores, plazo) {
   let llamadasOrdenadas = llamadas.sort((a, b) =>
     a.inicio >= b.inicio ? 1 : -1
   );
-  let time = 1587092400;
+  let time = 1587130200;
   let length = time + parseInt(plazo); 
   
   for (time; time < length; time++) {
@@ -104,6 +105,7 @@ function calcularLlamadas(llamadas, operadores, plazo) {
             llamadaAMover.fin = time + llamadaAMover.duracion;
             llamadasEnCurso.push(llamadaAMover);
             contador++;
+            llamadasEnEsperaContador--;
             llamadasEnCursoContador++;
             contenedorEnCurso.append(dibujarActiva(llamadaAMover, false));
             operadoresDisponibles.pop();

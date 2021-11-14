@@ -5,7 +5,7 @@ function generarLlamadas(cantidad, min, max) {
     let duracion = Math.floor((Math.random() * 30) + +min);
     duracion > +max ? duracion = +max : null; 
     segundos = segundos + Math.floor(Math.random() * 3) + 1;
-    const horaInicio = new Date(2020, 03, 17, 00, 00, segundos);
+    const horaInicio = new Date(2020, 03, 17, 10, 30, segundos);
     let llamada = { id: numLlamada, inicio: horaInicio, duracion: duracion };
     llamadas.push(llamada);
   }
@@ -16,12 +16,13 @@ function dibujarLlamada(llamada) {
   let detalleLlamada = document.createElement("p");
   detalleLlamada.id = "llamada" + llamada.id;
   detalleLlamada.innerText = `ID: ${llamada.id} Inicio: ${
-    Number(llamada.inicio) / 1000
+    (llamada.inicio.toTimeString().slice(0,8))
   } Duracion: ${llamada.duracion}`;
   return detalleLlamada;
 }
 
 function dibujarActiva(agregar, directo) {
+  console.log("agregar", agregar)
   let detalleLlamadaAMover = document.createElement("p");
   detalleLlamadaAMover.id = "activa" + agregar.id;
   detalleLlamadaAMover.innerText = `ID: ${agregar.id} Inicio: ${
