@@ -16,7 +16,7 @@ function dibujarLlamada(llamada) {
   let detalleLlamada = document.createElement("p");
   detalleLlamada.id = "llamada" + llamada.id;
   detalleLlamada.innerText = `ID: ${llamada.id} Inicio: ${
-    (llamada.inicio.toTimeString().slice(0,8))
+    llamada.inicio.toTimeString().slice(0,8)
   } Duracion: ${llamada.duracion}`;
   return detalleLlamada;
 }
@@ -26,7 +26,7 @@ function dibujarActiva(agregar, directo) {
   let detalleLlamadaAMover = document.createElement("p");
   detalleLlamadaAMover.id = "activa" + agregar.id;
   detalleLlamadaAMover.innerText = `ID: ${agregar.id} Inicio: ${
-    agregar.inicio
+    agregar.inicio.toTimeString().slice(0,8)
   } Duración: ${agregar.fin - agregar.inicio} seg. ${
     directo ? "Entró directo" : "Estuvo en espera"
   }`;
@@ -37,7 +37,7 @@ function dibujarPerdida(llamada) {
   let detalleLlamada = document.createElement("p");
   detalleLlamada.id = "llamada" + llamada.id;
   detalleLlamada.innerText = `ID: ${llamada.id} Inicio: ${
-    Number(llamada.inicio) / 1000
+    llamada.inicio.toTimeString().slice(0,8)
   } Duracion: ${llamada.duracion} seg. Quedó perdida`;
   return detalleLlamada;
 }
@@ -45,6 +45,6 @@ function dibujarPerdida(llamada) {
 function dibujarEnEspera(enEspera) {
   let detalleLlamadaAMover = document.createElement("p");
   detalleLlamadaAMover.id = enEspera.id;
-  detalleLlamadaAMover.innerText = `ID: ${enEspera.id} Inicio: ${enEspera.inicio}`;
+  detalleLlamadaAMover.innerText = `ID: ${enEspera.id} Inicio: ${enEspera.inicio.toTimeString().slice(0,8)}`;
   return detalleLlamadaAMover
 }

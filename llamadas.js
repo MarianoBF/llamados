@@ -122,8 +122,7 @@ function calcularLlamadas(llamadas, operadores, plazo) {
         if (operadoresDisponibles.indexOf(1) !== -1) {
           operadoresDisponibles.pop();
           const agregar = {
-            id: llamada.id,
-            inicio: time,
+            ...llamada,
             fin: time + llamada.duracion,
           };
           llamadasEnCurso.push(agregar);
@@ -135,10 +134,7 @@ function calcularLlamadas(llamadas, operadores, plazo) {
             maxOperadoresOcupados = personasHablando;
           }
         } else {
-          const enEspera = {
-            id: llamada.id,
-            inicio: time,
-            duracion: llamada.duracion,
+          const enEspera = {...llamada,
             espera: 0,
           };
           contenedorEnEspera.append(dibujarEnEspera(enEspera));
