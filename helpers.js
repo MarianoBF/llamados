@@ -27,18 +27,19 @@ function dibujarActiva(agregar, directo) {
   detalleLlamadaAMover.id = "activa" + agregar.id;
   detalleLlamadaAMover.innerText = `ID: ${agregar.id} Inicio: ${
     agregar.inicio.toTimeString().slice(0,8)
-  } Duración: ${agregar.fin - agregar.inicio} seg. ${
+  } Duración: ${agregar.fin_date - agregar.inicio} seg. ${
     directo ? "Entró directo" : "Estuvo en espera"
   }`;
   return detalleLlamadaAMover;
 }
 
 function dibujarPerdida(llamada) {
+  console.log(llamada)
   let detalleLlamada = document.createElement("p");
   detalleLlamada.id = "llamada" + llamada.id;
   detalleLlamada.innerText = `ID: ${llamada.id} Inicio: ${
     llamada.inicio.toTimeString().slice(0,8)
-  } Duracion: ${llamada.duracion} seg. Quedó perdida`;
+  } En espera por: ${llamada.espera} seg. Quedó perdida`;
   return detalleLlamada;
 }
 
