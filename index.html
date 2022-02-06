@@ -5,37 +5,39 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <link rel="stylesheet" href="/index.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>::Llamadas::</title>
 </head>
 
 <body>
     <h1>Simulando llamadas</h1>
-    <p>Podés simular una serie de llamadas, a través del primer menú podés alterar las opciones para cómo se van a generar, una vez listo dale al botón generar.</p>
+    <p class="description">Podés simular una serie de llamadas, a través del primer menú podés alterar las opciones para cómo se van a
+        generar, una vez listo dale al botón generar.</p>
     <div class="opcionesContainer">
-        <label>Cantidad Operadores
-            <input type="number" id="cantOperadores" value="3">
+        <label class="form-label">Cantidad Operadores
+            <input class="form-control" type="number" id="cantOperadores" value="3">
         </label>
-        <label>Cantidad Llamadas
-            <input type="number" id="cantLlamadas" value="30">
-        </label>
-        <label>Plazo para atender (seg)
-            <input type="number" id="segundosPlazo" value="240">
-        </label>
+        <label class="form-label">Cantidad Llamadas
+            <input class="form-control" type="number" id="cantLlamadas" value="30">
+        </label class="form-label">
+        <label class="form-label">Plazo para atender (seg)
+            <input class="form-control" type="number" id="segundosPlazo" value="240">
+        </label class="form-label">
         <label>Duración mínima de la llamada (seg)
-            <input type="number" id="minDuracion" value="30">
+            <input class="form-control" type="number" id="minDuracion" value="30">
+        </label class="form-label">
+        <label class="form-label">Duración máxima de la llamada (seg)
+            <input class="form-control" type="number" id="maxDuracion" value="70">
         </label>
-        <label>Duración máxima de la llamada (seg)
-            <input type="number" id="maxDuracion" value="70">
-        </label>
-        <button id="startButton">Generar</button>
+        <button type="button" class="btn btn-info" id="startButton">Generar</button>
     </div>
     <h1>Llamadas</h1>
-    <div id="contenedorLlamadas" class="container">
+    <div id="contenedorLlamadas" class="custom-container">
 
     </div>
     <hr>
-    <div class="container">
+    <div class="custom-container">
         <h2>Máximos operadores simultáneos/totales</h2>
         <h2>Máximo tiempo de Espera</h2>
         <h2>Llamados totales/atendidos/perdidos</h2>
@@ -44,7 +46,7 @@
         <div id="cantLlam"></div>
     </div>
     <hr>
-    <div class="container">
+    <div class="custom-container">
         <h2>Llamadas que estuvieron en espera</h2>
         <h2>Llamadas que se cursaron</h2>
         <h2>Llamadas que no se llegaron a atender</h2>
@@ -54,6 +56,7 @@
     </div>
     <script src="helpers.js"></script>
     <script src="llamadas.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 </body>
 
 </html>

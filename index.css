@@ -3,11 +3,16 @@ p {
     margin: 0 auto;
 }
 
+.description {
+    margin: 10px 0;
+    color: blue;
+}
+
 .llamadaTerminada {
     text-decoration: line-through;
 }
 
-.container {
+.custom-container {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     text-align: center;
