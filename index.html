@@ -12,20 +12,19 @@
 </head>
 
 <body>
-    <h1>Simulando llamadas</h1>
-    <p class="description">Podés simular una serie de llamadas, a través del primer menú podés alterar las opciones para
-        cómo se van a
-        generar, una vez listo dale al botón generar.</p>
+    <h1>Simulando llamadas de un centro de atención</h1>
+    <h2>Opciones</h2>
     <div class="container">
         <div class="row">
+            <div class="col">
+                <label class="form-label">Cantidad Llamadas
+                    <input class="form-control" type="number" id="cantLlamadas" value="30">
+                </label class="form-label">
+            </div>
             <div class="col">
                 <label class="form-label">Cantidad Operadores
                     <input class="form-control" type="number" id="cantOperadores" value="3">
                 </label>
-                <label class="form-label">Cantidad Llamadas
-                    <input class="form-control" type="number" id="cantLlamadas" value="30">
-                </label class="form-label">
-
                 <label class="form-label">Plazo para atender (seg)
                     <input class="form-control" type="number" id="segundosPlazo" value="240">
                 </label class="form-label">
@@ -41,28 +40,33 @@
             <button type="button" class="btn btn-info" id="startButton">Generar</button>
         </div>
     </div>
-    <h1>Llamadas</h1>
-    <div id="contenedorLlamadas" class="custom-container">
+    <h2>Llamadas</h2>
+    </div>
+    <hr>
+    <h3>Parámetros</h3>
+    <div>
+        <ul>
+        <li>Máximos operadores simultáneos/totales: <span id="cantOps"></span></li>        
 
+        <li>Máximo tiempo de Espera:     <span id="tEspera"></span>
+        </li>
+        <li>Llamados totales/atendidos/perdidos: <span id="cantLlam"></span>
+ </li>
+</ul>
     </div>
     <hr>
+    <h3>Llamadas por categoría</h3>
     <div class="custom-container">
-        <h2>Máximos operadores simultáneos/totales</h2>
-        <h2>Máximo tiempo de Espera</h2>
-        <h2>Llamados totales/atendidos/perdidos</h2>
-        <div id="cantOps"></div>
-        <div id="tEspera"></div>
-        <div id="cantLlam"></div>
-    </div>
-    <hr>
-    <div class="custom-container">
-        <h2>Llamadas que estuvieron en espera</h2>
-        <h2>Llamadas que se cursaron</h2>
-        <h2>Llamadas que no se llegaron a atender</h2>
+        <h4>Llamadas que estuvieron en espera</h4>
+        <h4>Llamadas que se cursaron</h4>
+        <h4>Llamadas que no se llegaron a atender</h4>
         <div id="contenedorLlamadasEnEspera"></div>
         <div id="contenedorLlamadasEnCurso"></div>
         <div id="contenedorLlamadasPerdidas"></div>
     </div>
+    <h3>Listado completo de las llamadas</h3>
+    <div id="contenedorLlamadas">
+
     <script src="helpers.js"></script>
     <script src="llamadas.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
