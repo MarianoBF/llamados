@@ -55,16 +55,24 @@
     </div>
     <hr>
     <h3>Llamadas por categoría</h3>
-    <div class="custom-container">
-        <h4>Llamadas que estuvieron en espera</h4>
-        <h4>Llamadas que se cursaron</h4>
-        <h4>Llamadas que no se llegaron a atender</h4>
-        <div id="contenedorLlamadasEnEspera"></div>
-        <div id="contenedorLlamadasEnCurso"></div>
-        <div id="contenedorLlamadasPerdidas"></div>
+    <div class="container-fluid">
+        <div class="row">
+        <div class="col"><h4><button data-bs-toggle="collapse" data-bs-target="#contenedorLlamadasEnEspera" aria-expanded="true" aria-controls="collapse">></button>Llamadas que estuvieron en espera</h4>    </div>
+
+        <div class="col"><h4><button data-bs-toggle="collapse" data-bs-target="#contenedorLlamadasEnCurso" aria-expanded="true" aria-controls="collapse">></button>Llamadas que se cursaron</h4>    </div>
+
+        <div class="col"><h4><button data-bs-toggle="collapse" data-bs-target="#contenedorLlamadasPerdidas" aria-expanded="true" aria-controls="collapse">></button>Llamadas que no se llegaron a atender</h4>    </div>
+
     </div>
-    <h3 class="text-center">Listado completo de las llamadas</h3>
-    <div class="custom-container" id="contenedorLlamadas">
+<div class="row">
+
+        <div class="col"><div class="collapse show" id="contenedorLlamadasEnEspera"></div></div>
+        <div class="col"><div class="collapse show" id="contenedorLlamadasEnCurso"></div></div>
+        <div class="col"><div class="collapse show" id="contenedorLlamadasPerdidas"></div></div>
+    </div>
+    </div>
+    <h3 class="text-center"><button data-bs-toggle="collapse" data-bs-target="#contenedorLlamadas" aria-expanded="false" aria-controls="collapse">></button>Listado completo de las llamadas</h3>
+    <div class="custom-container collapse" id="contenedorLlamadas">
 
         <script src="helpers.js"></script>
         <script src="llamadas.js"></script>

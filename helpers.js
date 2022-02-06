@@ -22,7 +22,6 @@ function dibujarLlamada(llamada) {
 }
 
 function dibujarActiva(agregar, directo) {
-  console.log("agregar", agregar)
   let detalleLlamadaAMover = document.createElement("p");
   detalleLlamadaAMover.id = "activa" + agregar.id;
   detalleLlamadaAMover.innerText = `ID: ${agregar.id} Inicio: ${
@@ -34,7 +33,6 @@ function dibujarActiva(agregar, directo) {
 }
 
 function dibujarPerdida(llamada) {
-  console.log(llamada)
   let detalleLlamada = document.createElement("p");
   detalleLlamada.id = "llamada" + llamada.id;
   detalleLlamada.innerText = `ID: ${llamada.id} Inicio: ${
