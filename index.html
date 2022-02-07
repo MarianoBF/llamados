@@ -12,9 +12,10 @@
 </head>
 
 <body>
-    <h1>Simulando llamadas de un centro de atención</h1>
-    <h2>Opciones</h2>
-    <div class="container">
+    <h1 class="text-center">Simulando llamadas de un centro de atención</h1>
+    <button type="button" class="btn btn-info d-block m-auto btn-lg" id="startButton">Generar</button>
+    <h2><button data-bs-toggle="collapse" data-bs-target="#contenedorOpciones" aria-expanded="false" aria-controls="collapse">+</button>Opciones</h2>
+    <div class="container collapse" id="contenedorOpciones">
         <div class="row">
             <div class="col">
                 <label class="form-label">Cantidad Llamadas
@@ -37,10 +38,8 @@
                     <input class="form-control" type="number" id="maxDuracion" value="70">
                 </label>
             </div>
-            <button type="button" class="btn btn-info" id="startButton">Generar</button>
         </div>
     </div>
-    <h2>Resultados:</h2>
     </div>
     <hr>
     <h3>Indicadores</h3>
@@ -57,21 +56,22 @@
     <h3>Llamadas por categoría</h3>
     <div class="container-fluid">
         <div class="row">
-        <div class="col"><h4><button data-bs-toggle="collapse" data-bs-target="#contenedorLlamadasEnEspera" aria-expanded="true" aria-controls="collapse">></button>Llamadas que estuvieron en espera</h4>    </div>
+        <div class="col"><h4 class="text-center"><button data-bs-toggle="collapse" data-bs-target="#contenedorLlamadasEnEspera" aria-expanded="true" aria-controls="collapse">+</button>Llamadas que estuvieron en espera</h4>    </div>
 
-        <div class="col"><h4><button data-bs-toggle="collapse" data-bs-target="#contenedorLlamadasEnCurso" aria-expanded="true" aria-controls="collapse">></button>Llamadas que se cursaron</h4>    </div>
+        <div class="col"><h4 class="text-center"><button data-bs-toggle="collapse" data-bs-target="#contenedorLlamadasEnCurso" aria-expanded="true" aria-controls="collapse">+</button>Llamadas que se cursaron</h4>    </div>
 
-        <div class="col"><h4><button data-bs-toggle="collapse" data-bs-target="#contenedorLlamadasPerdidas" aria-expanded="true" aria-controls="collapse">></button>Llamadas que no se llegaron a atender</h4>    </div>
+        <div class="col"><h4 class="text-center"><button data-bs-toggle="collapse" data-bs-target="#contenedorLlamadasPerdidas" aria-expanded="true" aria-controls="collapse">+</button>Llamadas que no se llegaron a atender</h4>    </div>
 
     </div>
 <div class="row">
 
-        <div class="col"><div class="collapse show" id="contenedorLlamadasEnEspera"></div></div>
-        <div class="col"><div class="collapse show" id="contenedorLlamadasEnCurso"></div></div>
-        <div class="col"><div class="collapse show" id="contenedorLlamadasPerdidas"></div></div>
+        <div class="col"><div class="text-center collapse show" id="contenedorLlamadasEnEspera"></div></div>
+        <div class="col"><div class="text-center collapse show" id="contenedorLlamadasEnCurso"></div></div>
+        <div class="col"><div class="text-center collapse show" id="contenedorLlamadasPerdidas"></div></div>
     </div>
     </div>
-    <h3 class="text-center"><button data-bs-toggle="collapse" data-bs-target="#contenedorLlamadas" aria-expanded="false" aria-controls="collapse">></button>Listado completo de las llamadas</h3>
+    <hr>
+    <h3 class="text-center"><button data-bs-toggle="collapse" data-bs-target="#contenedorLlamadas" aria-expanded="false" aria-controls="collapse">+</button>Listado completo de las llamadas</h3>
     <div class="custom-container collapse" id="contenedorLlamadas">
 
         <script src="helpers.js"></script>
