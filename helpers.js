@@ -26,8 +26,8 @@ function dibujarActiva(agregar, directo) {
   detalleLlamadaAMover.id = "activa" + agregar.id;
   detalleLlamadaAMover.innerText = `ID: ${agregar.id} Inicio: ${
     agregar.inicio.toTimeString().slice(0,8)
-  } Duración: ${agregar.fin_date - agregar.inicio} seg. ${
-    directo ? "Entró directo" : "Estuvo en espera"
+  } Duración: ${agregar.duracion} seg. ${
+    directo ? "Entró directo" : "Estuvo en espera durante " + agregar.espera + " seg"
   }`;
   return detalleLlamadaAMover;
 }

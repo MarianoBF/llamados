@@ -103,7 +103,8 @@ function calcularLlamadas(llamadas, operadores, plazo) {
 
             let llamadaAMover = llamadasEnEspera.shift();
             llamadaAMover.fin = time + llamadaAMover.duracion;
-            llamadaAMover.fin_date = new Date(time * 1000 + llamadaAMover.duracion)
+            console.log("durat1", llamadaAMover.duracion)
+
             llamadasEnCurso.push(llamadaAMover);
             contador++;
             llamadasEnEsperaContador--;
@@ -125,8 +126,8 @@ function calcularLlamadas(llamadas, operadores, plazo) {
           const agregar = {
             ...llamada,
             fin: time + llamada.duracion,
-            fin_date: new Date(time * 1000 + llamada.duracion)
           };
+          console.log("durat2", llamada.duracion)
           llamadasEnCurso.push(agregar);
           contador++;
           llamadasEnCursoContador++;
