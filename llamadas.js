@@ -27,12 +27,12 @@ function modeSelect(value) {
   if (value === "radioQoperadores") {
     startButton.addEventListener("click", runLlamadas) &&
       startButton.removeEventListener("click", testing);
-      maxEspera.disabled = true;
+    maxEspera.disabled = true;
     cantOperadores.disabled = false;
   } else {
     startButton.addEventListener("click", testing) &&
       startButton.removeEventListener("click", runLlamadas);
-      maxEspera.disabled = false;
+    maxEspera.disabled = false;
     cantOperadores.disabled = true;
   }
 }
@@ -79,9 +79,11 @@ function runLlamadas() {
 
 //Cuantos tiene el callcenter para que nadie espere más de 10 segundos? O de "x" segundos?
 let cantOperadoresTest = 1;
+let triedOpsValues = [];
 
 function testing() {
   console.log("with q operadores", cantOperadoresTest);
+  triedOpsValues.push(cantOperadoresTest);
   let llamadas = [];
 
   const cantLlamadas = +document.getElementById("cantLlamadas").value;
@@ -111,14 +113,26 @@ function testing() {
   tEspera.innerText = esp + " segundos";
   cantLlam.innerText = cantLlamadas + " / " + atend + " / " + perd;
 
-  // console.log("esperaMax", esp, esperaMaxDeseada.value)
+  console.log("esperaMax", esp, esperaMaxDeseada.value, "perdidas", perd)
 
-  if (esp > esperaMaxDeseada.value) {
-    cantOperadoresTest++;
-    console.log("probando con más ops");
-    testing();
+  if (esp > esperaMaxDeseada.value || perd > 0) {
+    if (esp / 2 > esperaMaxDeseada.value) {
+      cantOperadoresTest = cantOperadoresTest * 2;
+      console.log("probando con doble de ops");
+      testing();
+    } else {
+      cantOperadoresTest++;
+      console.log("probando con un ops más");
+      testing();
+    }
   } else {
-    document.getElementById("cantOperadores").value = cantOperadoresTest;
+    console.log("cortar?", cantOperadoresTest, triedOpsValues)
+    if (triedOpsValues.includes(cantOperadoresTest--)) {
+      document.getElementById("cantOperadores").value = cantOperadoresTest;
+    } else {
+      cantOperadoresTest--;
+      console.log("probando con un ops menos");
+    }
   }
 }
 
