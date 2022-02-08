@@ -11,29 +11,29 @@ const tEspera = document.getElementById("tEspera");
 const tEsperaMax = document.getElementById("maxEspera");
 const cantLlam = document.getElementById("cantLlam");
 
-const startButton = document.getElementById('startButton');
+const startButton = document.getElementById("startButton");
 
-startButton.addEventListener('click', ()=>runLlamadas())
+startButton.addEventListener("click", runLlamadas);
 
-// const radio1 = document.getElementById('radioQoperadores');
-// startButton.addEventListener('change', ()=>modeSelect(radio1.value))
+const esperaMaxDeseada = document.getElementById("maxEspera");
+let radios = document.querySelectorAll("input[type=radio]");
 
-// const radio2 = document.getElementById('radioTMax');
-// startButton.addEventListener('change', ()=>modeSelect(radio2.value))
-
-let radios = document.querySelectorAll('input[type=radio]');
-
-radios.forEach(radio => radio.addEventListener('change', () => modeSelect(radio.value)));
+radios.forEach((radio) =>
+  radio.addEventListener("change", () => modeSelect(radio.value))
+);
 
 function modeSelect(value) {
-  console.log("mode", value)
+  startButton.removeEventListener("click", runLlamadas);
+  value === "radioQoperadores"
+    ? startButton.addEventListener("click", runLlamadas) && startButton.removeEventListener("click", testing)
+    : startButton.addEventListener("click", testing) && startButton.removeEventListener("click", runLlamadas);
 }
 
 function runLlamadas() {
   const cantLlamadas = +document.getElementById("cantLlamadas").value;
   const minDuracion = +document.getElementById("minDuracion").value;
   const maxDuracion = +document.getElementById("maxDuracion").value;
-  
+
   const cantOperadores = +document.getElementById("cantOperadores").value;
   const plazo = +document.getElementById("segundosPlazo").value;
 
@@ -48,12 +48,16 @@ function runLlamadas() {
     contenedorLlamadas.append(dibujarLlamada(llamada));
   }
 
-  let [ops, esp, atend, perd] = calcularLlamadas(llamadas, cantOperadores, plazo);
+  let [ops, esp, atend, perd] = calcularLlamadas(
+    llamadas,
+    cantOperadores,
+    plazo
+  );
 
-  cantOps.innerText = ops + ' de ' + cantOperadores ;
-  tEspera.innerText = esp + ' segundos'
-  tEsperaMax.value = esp
-  cantLlam.innerText = cantLlamadas + ' / ' + atend  + ' / ' + perd
+  cantOps.innerText = ops + " de " + cantOperadores;
+  tEspera.innerText = esp + " segundos";
+  tEsperaMax.value = esp;
+  cantLlam.innerText = cantLlamadas + " / " + atend + " / " + perd;
 
   console.log(
     "max ops simultáneos: ",
@@ -63,16 +67,57 @@ function runLlamadas() {
     "max tiempo de espera (segs): ",
     esp
   );
-
 }
 
 //Cuantos tiene el callcenter para que nadie espere más de 10 segundos? O de "x" segundos?
+let cantOperadoresTest = 5
+
+function testing () {
+
+  console.log("with q operadores", cantOperadoresTest)
+  let llamadas = [];
+
+  const cantLlamadas = +document.getElementById("cantLlamadas").value;
+  const minDuracion = +document.getElementById("minDuracion").value;
+  const maxDuracion = +document.getElementById("maxDuracion").value;
+
+  const plazo = +document.getElementById("segundosPlazo").value;
+
+  contenedorEnCurso.innerHTML = "";
+  contenedorEnEspera.innerHTML = "";
+  contenedorLlamadas.innerHTML = "";
+  contenedorPerdidas.innerHTML = "";
+
+  llamadas = generarLlamadas(cantLlamadas, minDuracion, maxDuracion);
+
+  for (let llamada of llamadas) {
+    contenedorLlamadas.append(dibujarLlamada(llamada));
+  }
+
+  let [ops, esp, atend, perd] = calcularLlamadas(
+    llamadas,
+    cantOperadoresTest,
+    plazo
+  );
+
+  cantOps.innerText = ops + " de " + cantOperadoresTest;
+  tEspera.innerText = esp + " segundos";
+  tEsperaMax.value = esp;
+  cantLlam.innerText = cantLlamadas + " / " + atend + " / " + perd;
+
+  console.log("esperaMax", esp, esperaMaxDeseada.value)
+
+  if (esp > esperaMaxDeseada.value) {
+    cantOperadoresTest--
+    testing()
+  }
+}
 
 function calcularLlamadas(llamadas, operadores, plazo) {
-  console.log("inputs calcular llamadas: ", llamadas, operadores, plazo)
+  console.log("inputs calcular llamadas: ", llamadas, operadores, plazo);
   let personasHablando = 0;
   let operadoresDisponibles = new Array(+operadores).fill(1);
-  console.log("ops", operadoresDisponibles)
+  console.log("ops", operadoresDisponibles);
   let maxOperadoresOcupados = 0;
   let esperaMax = 0;
   let contador = 0;
@@ -84,8 +129,8 @@ function calcularLlamadas(llamadas, operadores, plazo) {
     a.inicio >= b.inicio ? 1 : -1
   );
   let time = 1587130200;
-  let length = time + parseInt(plazo); 
-  
+  let length = time + parseInt(plazo);
+
   for (time; time < length; time++) {
     const logLlamadas = llamadasEnCurso.map((item) => item.id);
 
@@ -118,7 +163,6 @@ function calcularLlamadas(llamadas, operadores, plazo) {
 
             let llamadaAMover = llamadasEnEspera.shift();
             llamadaAMover.fin = time + llamadaAMover.duracion;
-            console.log("durat1", llamadaAMover.duracion)
 
             llamadasEnCurso.push(llamadaAMover);
             contador++;
@@ -142,7 +186,6 @@ function calcularLlamadas(llamadas, operadores, plazo) {
             ...llamada,
             fin: time + llamada.duracion,
           };
-          console.log("durat2", llamada.duracion)
           llamadasEnCurso.push(agregar);
           contador++;
           llamadasEnCursoContador++;
@@ -152,9 +195,7 @@ function calcularLlamadas(llamadas, operadores, plazo) {
             maxOperadoresOcupados = personasHablando;
           }
         } else {
-          const enEspera = {...llamada,
-            espera: 1,
-          };
+          const enEspera = { ...llamada, espera: 1 };
           contenedorEnEspera.append(dibujarEnEspera(enEspera));
           llamadasEnEspera.push(enEspera);
           llamadasEnEsperaContador++;
@@ -177,5 +218,10 @@ function calcularLlamadas(llamadas, operadores, plazo) {
     llamadasEnCursoContador
   );
 
-  return [maxOperadoresOcupados, esperaMax, llamadasEnCursoContador, llamadasEnEsperaContador];
+  return [
+    maxOperadoresOcupados,
+    esperaMax,
+    llamadasEnCursoContador,
+    llamadasEnEsperaContador,
+  ];
 }
