@@ -24,9 +24,17 @@ radios.forEach((radio) =>
 
 function modeSelect(value) {
   startButton.removeEventListener("click", runLlamadas);
-  value === "radioQoperadores"
-    ? startButton.addEventListener("click", runLlamadas) && startButton.removeEventListener("click", testing)
-    : startButton.addEventListener("click", testing) && startButton.removeEventListener("click", runLlamadas);
+  if (value === "radioQoperadores") {
+    startButton.addEventListener("click", runLlamadas) &&
+      startButton.removeEventListener("click", testing);
+      maxEspera.disabled = true;
+    cantOperadores.disabled = false;
+  } else {
+    startButton.addEventListener("click", testing) &&
+      startButton.removeEventListener("click", runLlamadas);
+      maxEspera.disabled = false;
+    cantOperadores.disabled = true;
+  }
 }
 
 function runLlamadas() {
@@ -59,22 +67,21 @@ function runLlamadas() {
   tEsperaMax.value = esp;
   cantLlam.innerText = cantLlamadas + " / " + atend + " / " + perd;
 
-  console.log(
-    "max ops simultáneos: ",
-    ops,
-    "max ops disponibles: ",
-    cantOperadores,
-    "max tiempo de espera (segs): ",
-    esp
-  );
+  // console.log(
+  //   "max ops simultáneos: ",
+  //   ops,
+  //   "max ops disponibles: ",
+  //   cantOperadores,
+  //   "max tiempo de espera (segs): ",
+  //   esp
+  // );
 }
 
 //Cuantos tiene el callcenter para que nadie espere más de 10 segundos? O de "x" segundos?
-let cantOperadoresTest = 5
+let cantOperadoresTest = 1;
 
-function testing () {
-
-  console.log("with q operadores", cantOperadoresTest)
+function testing() {
+  console.log("with q operadores", cantOperadoresTest);
   let llamadas = [];
 
   const cantLlamadas = +document.getElementById("cantLlamadas").value;
@@ -102,22 +109,24 @@ function testing () {
 
   cantOps.innerText = ops + " de " + cantOperadoresTest;
   tEspera.innerText = esp + " segundos";
-  tEsperaMax.value = esp;
   cantLlam.innerText = cantLlamadas + " / " + atend + " / " + perd;
 
-  console.log("esperaMax", esp, esperaMaxDeseada.value)
+  // console.log("esperaMax", esp, esperaMaxDeseada.value)
 
   if (esp > esperaMaxDeseada.value) {
-    cantOperadoresTest--
-    testing()
+    cantOperadoresTest++;
+    console.log("probando con más ops");
+    testing();
+  } else {
+    document.getElementById("cantOperadores").value = cantOperadoresTest;
   }
 }
 
 function calcularLlamadas(llamadas, operadores, plazo) {
-  console.log("inputs calcular llamadas: ", llamadas, operadores, plazo);
+  // console.log("inputs calcular llamadas: ", llamadas, operadores, plazo);
   let personasHablando = 0;
   let operadoresDisponibles = new Array(+operadores).fill(1);
-  console.log("ops", operadoresDisponibles);
+  // console.log("ops", operadoresDisponibles);
   let maxOperadoresOcupados = 0;
   let esperaMax = 0;
   let contador = 0;
@@ -170,7 +179,7 @@ function calcularLlamadas(llamadas, operadores, plazo) {
             llamadasEnCursoContador++;
             contenedorEnCurso.append(dibujarActiva(llamadaAMover, false));
             operadoresDisponibles.pop();
-            console.log("habilitar operador llamada en espera");
+            // console.log("habilitar operador llamada en espera");
           }
         }
       }
@@ -199,9 +208,9 @@ function calcularLlamadas(llamadas, operadores, plazo) {
           contenedorEnEspera.append(dibujarEnEspera(enEspera));
           llamadasEnEspera.push(enEspera);
           llamadasEnEsperaContador++;
-          console.log(
-            "no hay operadores disponibles, poniendo llamada en espera"
-          );
+          // console.log(
+          //   "no hay operadores disponibles, poniendo llamada en espera"
+          // );
         }
       }
     });
@@ -211,12 +220,12 @@ function calcularLlamadas(llamadas, operadores, plazo) {
     contenedorPerdidas.append(dibujarPerdida(llamada));
   }
 
-  console.log(
-    "contadorEspera",
-    llamadasEnEsperaContador,
-    "contadorCurso",
-    llamadasEnCursoContador
-  );
+  // console.log(
+  //   "contadorEspera",
+  //   llamadasEnEsperaContador,
+  //   "contadorCurso",
+  //   llamadasEnCursoContador
+  // );
 
   return [
     maxOperadoresOcupados,
