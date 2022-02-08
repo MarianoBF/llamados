@@ -14,21 +14,35 @@
 <body>
     <h1 class="text-center">Simulando llamadas de un centro de atención</h1>
     <button type="button" class="btn btn-info d-block m-auto btn-lg" id="startButton">Generar</button>
-    <h2><button data-bs-toggle="collapse" data-bs-target="#contenedorOpciones" aria-expanded="false" aria-controls="collapse">+</button>Opciones</h2>
+    <h2><button data-bs-toggle="collapse" data-bs-target="#contenedorOpciones" aria-expanded="false"
+            aria-controls="collapse">+</button>Opciones</h2>
     <div class="container collapse" id="contenedorOpciones">
         <div class="row">
             <div class="col">
+                <div>
+                    <input type="radio" id="radioQoperadores" name="camino" value="radioQoperadores" checked>
+                    <label for="huey">Por cantidad de operadores</label>
+                </div>
+                <div>
+                    <input type="radio" id="radioTMax" name="camino" value="radioTMax" checked>
+                    <label for="huey">Por tiempo máximo de espera</label>
+                </div>
+            </div>
+            <div class="col">
                 <label class="form-label">Cantidad Llamadas
                     <input class="form-control" type="number" id="cantLlamadas" value="30">
+                </label class="form-label">
+                <label class="form-label">Duración de la sesión de llamados (seg)
+                    <input class="form-control" type="number" id="segundosPlazo" value="240">
                 </label class="form-label">
             </div>
             <div class="col">
                 <label class="form-label">Cantidad Operadores
                     <input class="form-control" type="number" id="cantOperadores" value="3">
                 </label>
-                <label class="form-label">Duración de la sesión de llamados (seg)
-                    <input class="form-control" type="number" id="segundosPlazo" value="240">
-                </label class="form-label">
+                <label class="form-label">Tiempo máximo de espera
+                    <input class="form-control" type="number" id="maxEspera" value="" disabled>
+                </label>
             </div>
             <div class="col">
                 <label>Duración mínima de la llamada (seg)
@@ -56,22 +70,39 @@
     <h3>Llamadas por categoría</h3>
     <div class="container-fluid">
         <div class="row">
-        <div class="col"><h4 class="text-center"><button data-bs-toggle="collapse" data-bs-target="#contenedorLlamadasEnEspera" aria-expanded="true" aria-controls="collapse">+</button>Llamadas que estuvieron en espera</h4>    </div>
+            <div class="col">
+                <h4 class="text-center"><button data-bs-toggle="collapse" data-bs-target="#contenedorLlamadasEnEspera"
+                        aria-expanded="true" aria-controls="collapse">+</button>Llamadas que estuvieron en espera</h4>
+            </div>
 
-        <div class="col"><h4 class="text-center"><button data-bs-toggle="collapse" data-bs-target="#contenedorLlamadasEnCurso" aria-expanded="true" aria-controls="collapse">+</button>Llamadas que se cursaron</h4>    </div>
+            <div class="col">
+                <h4 class="text-center"><button data-bs-toggle="collapse" data-bs-target="#contenedorLlamadasEnCurso"
+                        aria-expanded="true" aria-controls="collapse">+</button>Llamadas que se cursaron</h4>
+            </div>
 
-        <div class="col"><h4 class="text-center"><button data-bs-toggle="collapse" data-bs-target="#contenedorLlamadasPerdidas" aria-expanded="true" aria-controls="collapse">+</button>Llamadas que no se llegaron a atender</h4>    </div>
+            <div class="col">
+                <h4 class="text-center"><button data-bs-toggle="collapse" data-bs-target="#contenedorLlamadasPerdidas"
+                        aria-expanded="true" aria-controls="collapse">+</button>Llamadas que no se llegaron a atender
+                </h4>
+            </div>
 
-    </div>
-<div class="row">
+        </div>
+        <div class="row">
 
-        <div class="col"><div class="text-center collapse show" id="contenedorLlamadasEnEspera"></div></div>
-        <div class="col"><div class="text-center collapse show" id="contenedorLlamadasEnCurso"></div></div>
-        <div class="col"><div class="text-center collapse show" id="contenedorLlamadasPerdidas"></div></div>
-    </div>
+            <div class="col">
+                <div class="text-center collapse show" id="contenedorLlamadasEnEspera"></div>
+            </div>
+            <div class="col">
+                <div class="text-center collapse show" id="contenedorLlamadasEnCurso"></div>
+            </div>
+            <div class="col">
+                <div class="text-center collapse show" id="contenedorLlamadasPerdidas"></div>
+            </div>
+        </div>
     </div>
     <hr>
-    <h3 class="text-center"><button data-bs-toggle="collapse" data-bs-target="#contenedorLlamadas" aria-expanded="false" aria-controls="collapse">+</button>Listado completo de las llamadas</h3>
+    <h3 class="text-center"><button data-bs-toggle="collapse" data-bs-target="#contenedorLlamadas" aria-expanded="false"
+            aria-controls="collapse">+</button>Listado completo de las llamadas</h3>
     <div class="custom-container collapse" id="contenedorLlamadas">
 
         <script src="helpers.js"></script>

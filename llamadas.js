@@ -8,12 +8,26 @@ const contenedorPerdidas = document.getElementById(
 );
 const cantOps = document.getElementById("cantOps");
 const tEspera = document.getElementById("tEspera");
+const tEsperaMax = document.getElementById("maxEspera");
 const cantLlam = document.getElementById("cantLlam");
 
 const startButton = document.getElementById('startButton');
 
 startButton.addEventListener('click', ()=>runLlamadas())
 
+// const radio1 = document.getElementById('radioQoperadores');
+// startButton.addEventListener('change', ()=>modeSelect(radio1.value))
+
+// const radio2 = document.getElementById('radioTMax');
+// startButton.addEventListener('change', ()=>modeSelect(radio2.value))
+
+let radios = document.querySelectorAll('input[type=radio]');
+
+radios.forEach(radio => radio.addEventListener('change', () => modeSelect(radio.value)));
+
+function modeSelect(value) {
+  console.log("mode", value)
+}
 
 function runLlamadas() {
   const cantLlamadas = +document.getElementById("cantLlamadas").value;
@@ -38,6 +52,7 @@ function runLlamadas() {
 
   cantOps.innerText = ops + ' de ' + cantOperadores ;
   tEspera.innerText = esp + ' segundos'
+  tEsperaMax.value = esp
   cantLlam.innerText = cantLlamadas + ' / ' + atend  + ' / ' + perd
 
   console.log(
@@ -138,7 +153,7 @@ function calcularLlamadas(llamadas, operadores, plazo) {
           }
         } else {
           const enEspera = {...llamada,
-            espera: 0,
+            espera: 1,
           };
           contenedorEnEspera.append(dibujarEnEspera(enEspera));
           llamadasEnEspera.push(enEspera);
