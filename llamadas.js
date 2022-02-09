@@ -12,12 +12,9 @@ const tEspera = document.getElementById("tEspera");
 const tEsperaMax = document.getElementById("maxEspera");
 const cantLlam = document.getElementById("cantLlam");
 const startButton = document.getElementById("startButton");
-const esperaMaxDeseada = document.getElementById("maxEspera");
-const indicador1 = document.getElementById("indicador1")
-const cantLlamadas = +document.getElementById("cantLlamadas").value;
-const minDuracion = +document.getElementById("minDuracion").value;
-const maxDuracion = +document.getElementById("maxDuracion").value;
-const plazo = +document.getElementById("segundosPlazo").value;
+const indicador1 = document.getElementById("indicador1");
+const esperaMaxDeseadaInput = document.getElementById("maxEspera");
+const cantOperadoresInput = +document.getElementById("cantOperadores");
 
 // listener & mode selectors
 startButton.addEventListener("click", calcMaxWait);
@@ -40,15 +37,16 @@ function modeSelect(value) {
   if (value === "radioQoperadores") {
     startButton.addEventListener("click", calcMaxWait) &&
       startButton.removeEventListener("click", calcNeededOps);
-    maxEspera.disabled = true;
-    cantOperadores.disabled = false;
+    esperaMaxDeseadaInput.disabled = true;
+    cantOperadoresInput.disabled = false;
     indicador1.innerText = "Máximos operadores simultáneos/totales:";
   } else {
     startButton.addEventListener("click", calcNeededOps) &&
       startButton.removeEventListener("click", calcMaxWait);
-    maxEspera.disabled = false;
-    cantOperadores.disabled = true;
-    indicador1.innerText = "Cantidad de operadores necesaria para no exceder espera:";
+    esperaMaxDeseadaInput.disabled = false;
+    cantOperadoresInput.disabled = true;
+    indicador1.innerText =
+      "Cantidad de operadores necesaria para no exceder espera:";
   }
 }
 
@@ -58,24 +56,66 @@ let triedOpsValues = [];
 
 // functions
 
-function checkValues() {
-  if (maxEspera.value > 1000 || maxEspera.value < 1 || 
-    cantOperadores.value < 1 || cantOperadores.value > 100 ||
-    cantLlamadas < 1 || cantLlamadas > 10000 || 
-    minDuracion < 1 || minDuracion > 100 || 
-    maxDuracion < 2 || maxDuracion > 1000 || 
-    plazo < 1 || plazo > 10000
-    ) {
-    return true
+function getValues() {
+  const cantLlamadas = +document.getElementById("cantLlamadas").value;
+  const minDuracion = +document.getElementById("minDuracion").value;
+  const maxDuracion = +document.getElementById("maxDuracion").value;
+  const plazo = +document.getElementById("segundosPlazo").value;
+  const esperaMaxDeseada = document.getElementById("maxEspera").value;
+  const cantOperadores = +document.getElementById("cantOperadores").value;
+
+  return {
+    cantLlamadas,
+    minDuracion,
+    maxDuracion,
+    plazo,
+    esperaMaxDeseada,
+    cantOperadores,
+  };
+}
+
+function checkValues(
+  cantLlamadas,
+  minDuracion,
+  maxDuracion,
+  plazo,
+  esperaMaxDeseada = 1,
+  cantOperadores = 1
+) {
+  if (
+    cantOperadores.value < 1 ||
+    cantOperadores.value > 100 ||
+    cantLlamadas < 1 ||
+    cantLlamadas > 10000 ||
+    minDuracion < 1 ||
+    minDuracion > 100 ||
+    maxDuracion < 2 ||
+    maxDuracion > 1000 ||
+    plazo < 1 ||
+    plazo > 10000 ||
+    esperaMaxDeseada < 1 ||
+    esperaMaxDeseada > 1000
+  ) {
+    return true;
   }
 }
 
 function calcMaxWait() {
-  const check = checkValues()
-  if (check) {alert("Hay un problema con los números ingresados, podés manejarte dentro de los rangos permitidos usando los controles de cada campo"); return}
-
-  const cantOperadores = +document.getElementById("cantOperadores").value;
-  const plazo = +document.getElementById("segundosPlazo").value;
+  const { cantLlamadas, minDuracion, maxDuracion, plazo, cantOperadores } =
+    getValues();
+  const check = checkValues(
+    cantLlamadas,
+    minDuracion,
+    maxDuracion,
+    plazo,
+    cantOperadores
+  );
+  if (check) {
+    alert(
+      "Hay un problema con los números ingresados, podés manejarte dentro de los rangos permitidos usando los controles de cada campo"
+    );
+    return;
+  }
 
   contenedorEnCurso.innerHTML = "";
   contenedorEnEspera.innerHTML = "";
@@ -98,12 +138,25 @@ function calcMaxWait() {
   tEspera.innerText = esp + " segundos";
   tEsperaMax.value = esp;
   cantLlam.innerText = cantLlamadas + " / " + atend + " / " + perd;
-  contenedorOpciones.classList.remove("show")
+  contenedorOpciones.classList.remove("show");
 }
 
 function calcNeededOps() {
-  const check = checkValues()
-  if (check) {alert("Hay un problema con los números ingresados, podés manejarte dentro de los rangos permitidos usando los controles de cada campo"); return}
+  const { cantLlamadas, minDuracion, maxDuracion, plazo, esperaMaxDeseada } =
+    getValues();
+  const check = checkValues(
+    cantLlamadas,
+    minDuracion,
+    maxDuracion,
+    plazo,
+    esperaMaxDeseada
+  );
+  if (check) {
+    alert(
+      "Hay un problema con los números ingresados, podés manejarte dentro de los rangos permitidos usando los controles de cada campo"
+    );
+    return;
+  }
   console.log("with q operadores", cantOperadoresTest);
   triedOpsValues.push(cantOperadoresTest);
   let llamadas = [];
@@ -125,14 +178,21 @@ function calcNeededOps() {
     plazo
   );
 
-  cantOps.innerText = ops + " operadores"
+  cantOps.innerText = ops + " operadores";
   tEspera.innerText = esp + " segundos";
   cantLlam.innerText = cantLlamadas + " / " + atend + " / " + perd;
 
-  console.log("esperaMax", esp, esperaMaxDeseada.value, "perdidas", perd);
+  console.log("esperaMax", esp, esperaMaxDeseada, "perdidas", perd);
 
-  if (esp > esperaMaxDeseada.value || perd > 0) {
-    if (esp / 2 > esperaMaxDeseada.value) {
+  if (cantOperadoresTest >= 100) {
+    console.log("Max ops");
+    alert(
+      "Ni siquiera con 100 operadores se alcanza a atender todos los llamados en el plazo, aumentá el margen admitido para obtener una respuesta exacta."
+    );
+  }
+
+  if (esp > esperaMaxDeseada || perd > 0) {
+    if (esp / 2 > esperaMaxDeseada) {
       cantOperadoresTest = cantOperadoresTest * 2;
       console.log("probando con doble de ops");
       calcNeededOps();
@@ -150,7 +210,7 @@ function calcNeededOps() {
       console.log("probando con un ops menos");
     }
   }
-  contenedorOpciones.classList.remove("show")
+  contenedorOpciones.classList.remove("show");
 }
 
 function calcularLlamadas(llamadas, operadores, plazo) {
