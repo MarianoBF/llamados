@@ -1,3 +1,4 @@
+// Identificando elementos
 const contenedorEnCurso = document.getElementById("contenedorLlamadasEnCurso");
 const contenedorLlamadas = document.getElementById("contenedorLlamadas");
 const contenedorEnEspera = document.getElementById(
@@ -10,12 +11,13 @@ const cantOps = document.getElementById("cantOps");
 const tEspera = document.getElementById("tEspera");
 const tEsperaMax = document.getElementById("maxEspera");
 const cantLlam = document.getElementById("cantLlam");
-
 const startButton = document.getElementById("startButton");
+const esperaMaxDeseada = document.getElementById("maxEspera");
+const indicador1 = document.getElementById("indicador1")
 
+// listener & mode selectors
 startButton.addEventListener("click", runLlamadas);
 
-const esperaMaxDeseada = document.getElementById("maxEspera");
 let radios = document.querySelectorAll("input[type=radio]");
 
 radios.forEach((radio) =>
@@ -29,13 +31,21 @@ function modeSelect(value) {
       startButton.removeEventListener("click", testing);
     maxEspera.disabled = true;
     cantOperadores.disabled = false;
+    indicador1.innerText = "Máximos operadores simultáneos/totales:";
   } else {
     startButton.addEventListener("click", testing) &&
       startButton.removeEventListener("click", runLlamadas);
     maxEspera.disabled = false;
     cantOperadores.disabled = true;
+    indicador1.innerText = "Cantidad de operadores necesaria para no exceder espera:";
   }
 }
+
+// variables
+let cantOperadoresTest = 1;
+let triedOpsValues = [];
+
+// functions
 
 function runLlamadas() {
   const cantLlamadas = +document.getElementById("cantLlamadas").value;
@@ -66,20 +76,7 @@ function runLlamadas() {
   tEspera.innerText = esp + " segundos";
   tEsperaMax.value = esp;
   cantLlam.innerText = cantLlamadas + " / " + atend + " / " + perd;
-
-  // console.log(
-  //   "max ops simultáneos: ",
-  //   ops,
-  //   "max ops disponibles: ",
-  //   cantOperadores,
-  //   "max tiempo de espera (segs): ",
-  //   esp
-  // );
 }
-
-//Cuantos tiene el callcenter para que nadie espere más de 10 segundos? O de "x" segundos?
-let cantOperadoresTest = 1;
-let triedOpsValues = [];
 
 function testing() {
   console.log("with q operadores", cantOperadoresTest);
@@ -109,11 +106,11 @@ function testing() {
     plazo
   );
 
-  cantOps.innerText = ops + " de " + cantOperadoresTest;
+  cantOps.innerText = ops + " operadores"
   tEspera.innerText = esp + " segundos";
   cantLlam.innerText = cantLlamadas + " / " + atend + " / " + perd;
 
-  console.log("esperaMax", esp, esperaMaxDeseada.value, "perdidas", perd)
+  console.log("esperaMax", esp, esperaMaxDeseada.value, "perdidas", perd);
 
   if (esp > esperaMaxDeseada.value || perd > 0) {
     if (esp / 2 > esperaMaxDeseada.value) {
@@ -126,7 +123,7 @@ function testing() {
       testing();
     }
   } else {
-    console.log("cortar?", cantOperadoresTest, triedOpsValues)
+    console.log("cortar?", cantOperadoresTest, triedOpsValues);
     if (triedOpsValues.includes(cantOperadoresTest--)) {
       document.getElementById("cantOperadores").value = cantOperadoresTest;
     } else {
