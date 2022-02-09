@@ -20,7 +20,7 @@ const maxDuracion = +document.getElementById("maxDuracion").value;
 const plazo = +document.getElementById("segundosPlazo").value;
 
 // listener & mode selectors
-startButton.addEventListener("click", runLlamadas);
+startButton.addEventListener("click", calcMaxWait);
 
 let radios = document.querySelectorAll("input[type=radio]");
 
@@ -29,7 +29,7 @@ radios.forEach((radio) =>
 );
 
 function modeSelect(value) {
-  startButton.removeEventListener("click", runLlamadas);
+  startButton.removeEventListener("click", calcMaxWait);
   cantOps.innerText = "";
   tEspera.innerText = "";
   cantLlam.innerText = "";
@@ -38,14 +38,14 @@ function modeSelect(value) {
   contenedorLlamadas.innerHTML = "";
   contenedorPerdidas.innerHTML = "";
   if (value === "radioQoperadores") {
-    startButton.addEventListener("click", runLlamadas) &&
-      startButton.removeEventListener("click", testing);
+    startButton.addEventListener("click", calcMaxWait) &&
+      startButton.removeEventListener("click", calcNeededOps);
     maxEspera.disabled = true;
     cantOperadores.disabled = false;
     indicador1.innerText = "Máximos operadores simultáneos/totales:";
   } else {
-    startButton.addEventListener("click", testing) &&
-      startButton.removeEventListener("click", runLlamadas);
+    startButton.addEventListener("click", calcNeededOps) &&
+      startButton.removeEventListener("click", calcMaxWait);
     maxEspera.disabled = false;
     cantOperadores.disabled = true;
     indicador1.innerText = "Cantidad de operadores necesaria para no exceder espera:";
@@ -70,7 +70,7 @@ function checkValues() {
   }
 }
 
-function runLlamadas() {
+function calcMaxWait() {
   const check = checkValues()
   if (check) {alert("Hay un problema con los números ingresados, podés manejarte dentro de los rangos permitidos usando los controles de cada campo"); return}
 
@@ -101,7 +101,9 @@ function runLlamadas() {
   contenedorOpciones.classList.remove("show")
 }
 
-function testing() {
+function calcNeededOps() {
+  const check = checkValues()
+  if (check) {alert("Hay un problema con los números ingresados, podés manejarte dentro de los rangos permitidos usando los controles de cada campo"); return}
   console.log("with q operadores", cantOperadoresTest);
   triedOpsValues.push(cantOperadoresTest);
   let llamadas = [];
@@ -133,11 +135,11 @@ function testing() {
     if (esp / 2 > esperaMaxDeseada.value) {
       cantOperadoresTest = cantOperadoresTest * 2;
       console.log("probando con doble de ops");
-      testing();
+      calcNeededOps();
     } else {
       cantOperadoresTest++;
       console.log("probando con un ops más");
-      testing();
+      calcNeededOps();
     }
   } else {
     console.log("cortar?", cantOperadoresTest, triedOpsValues);
