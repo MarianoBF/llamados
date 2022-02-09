@@ -2,8 +2,7 @@ function generarLlamadas(cantidad, min, max) {
   let llamadas = [];
   let segundos = 0;
   for (let numLlamada = 0; numLlamada < cantidad; numLlamada++) {
-    let duracion = Math.floor((Math.random() * 30) + +min);
-    duracion > +max ? duracion = +max : null; 
+    let duracion = Math.floor(Math.random() * (max - min)) + min;
     segundos = segundos + Math.floor(Math.random() * 3) + 1;
     const horaInicio = new Date(2020, 03, 17, 10, 30, segundos);
     let llamada = { id: numLlamada, inicio: horaInicio, duracion: duracion };
