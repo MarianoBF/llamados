@@ -30,10 +30,8 @@ function modeSelect(value) {
   cantOps.innerText = "";
   tEspera.innerText = "";
   cantLlam.innerText = "";
-  contenedorEnCurso.innerHTML = "";
-  contenedorEnEspera.innerHTML = "";
-  contenedorLlamadas.innerHTML = "";
-  contenedorPerdidas.innerHTML = "";
+  clearContainers();
+
   if (value === "radioQoperadores") {
     startButton.addEventListener("click", calcMaxWait) &&
       startButton.removeEventListener("click", calcNeededOps);
@@ -123,10 +121,7 @@ function calcMaxWait() {
     return;
   }
 
-  contenedorEnCurso.innerHTML = "";
-  contenedorEnEspera.innerHTML = "";
-  contenedorLlamadas.innerHTML = "";
-  contenedorPerdidas.innerHTML = "";
+  clearContainers();
 
   let llamadas = generarLlamadas(cantLlamadas, minDuracion, maxDuracion);
 
@@ -167,10 +162,7 @@ function calcNeededOps() {
   triedOpsValues.push(cantOperadoresTest);
   let llamadas = [];
 
-  contenedorEnCurso.innerHTML = "";
-  contenedorEnEspera.innerHTML = "";
-  contenedorLlamadas.innerHTML = "";
-  contenedorPerdidas.innerHTML = "";
+  clearContainers();
 
   llamadas = generarLlamadas(cantLlamadas, minDuracion, maxDuracion);
 
@@ -195,10 +187,7 @@ function calcNeededOps() {
     alert(
       "Ni siquiera con 100 operadores se alcanza a atender todos los llamados en el plazo, aumentá el margen admitido para obtener una respuesta exacta."
     );
-    contenedorEnCurso.innerHTML = "";
-    contenedorEnEspera.innerHTML = "";
-    contenedorLlamadas.innerHTML = "";
-    contenedorPerdidas.innerHTML = "";
+      clearContainers();
     cantOps.innerText = "";
     tEspera.innerText = "";
     cantLlam.innerText = "";
@@ -234,10 +223,8 @@ function calcNeededOps() {
 }
 
 function calcularLlamadas(llamadas, operadores, plazo) {
-  // console.log("inputs calcular llamadas: ", llamadas, operadores, plazo);
   let personasHablando = 0;
   let operadoresDisponibles = new Array(+operadores).fill(1);
-  // console.log("ops", operadoresDisponibles);
   let maxOperadoresOcupados = 0;
   let esperaMax = 0;
   let contador = 0;
@@ -331,12 +318,6 @@ function calcularLlamadas(llamadas, operadores, plazo) {
     contenedorPerdidas.append(dibujarPerdida(llamada));
   }
 
-  // console.log(
-  //   "contadorEspera",
-  //   llamadasEnEsperaContador,
-  //   "contadorCurso",
-  //   llamadasEnCursoContador
-  // );
 
   return [
     maxOperadoresOcupados,
@@ -344,4 +325,11 @@ function calcularLlamadas(llamadas, operadores, plazo) {
     llamadasEnCursoContador,
     llamadasEnEsperaContador,
   ];
+}
+
+function clearContainers() {
+  contenedorEnCurso.innerHTML = "";
+  contenedorEnEspera.innerHTML = "";
+  contenedorLlamadas.innerHTML = "";
+  contenedorPerdidas.innerHTML = "";
 }
