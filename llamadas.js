@@ -53,7 +53,7 @@ function modeSelect(value) {
 // variables
 let cantOperadoresTest = 1;
 let triedOpsValues = [];
-
+let checkError = '';
 // functions
 
 function getValues() {
@@ -92,11 +92,17 @@ function checkValues(
     maxDuracion < 2 ||
     maxDuracion > 1000 ||
     plazo < 1 ||
-    plazo > 10000 ||
+    plazo > 40000 ||
     esperaMaxDeseada < 1 ||
     esperaMaxDeseada > 1000
   ) {
+    checkError = 'Hay un problema con los números ingresados, podés manejarte dentro de los rangos permitidos usando los controles de cada campo'
     return true;
+  }
+
+  if (plazo < cantLlamadas * 3) {
+    checkError = 'La duración de la sesión para atender debe al menos triplicar la cantidad de llamadas'
+    return true
   }
 }
 
@@ -112,7 +118,7 @@ function calcMaxWait() {
   );
   if (check) {
     alert(
-      "Hay un problema con los números ingresados, podés manejarte dentro de los rangos permitidos usando los controles de cada campo"
+      checkError
     );
     return;
   }
@@ -210,7 +216,7 @@ function calcNeededOps() {
       calcNeededOps();
     } else {
       cantOperadoresTest++;
-      console.log("probando con un ops más");
+      console.log("probando con un op más");
       calcNeededOps();
     }
   } else if (esp <= esperaMaxDeseada && perd === 0) {
@@ -219,7 +225,7 @@ function calcNeededOps() {
       document.getElementById("cantOperadores").value = cantOperadoresTest;
     } else {
       cantOperadoresTest--;
-      console.log("probando con un ops menos");
+      console.log("probando con un op menos");
     }
   } else {
     alert("No se pudo obtener una respuesta");
