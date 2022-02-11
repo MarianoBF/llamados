@@ -175,7 +175,7 @@ function auxCalcNeededOps() {
     reset();
     return;
   }
-  console.log("with q operadores", cantOperadoresTest);
+  //console.log("with q operadores", cantOperadoresTest);
   triedOpsValues.push(cantOperadoresTest);
   let llamadas = [];
 
@@ -197,10 +197,10 @@ function auxCalcNeededOps() {
   tEspera.innerText = esp + " segundos";
   cantLlam.innerText = cantLlamadas + " / " + atend + " / " + perd;
 
-  console.log("esperaMax", esp, esperaMaxDeseada, "perdidas", perd);
+  //console.log("esperaMax", esp, esperaMaxDeseada, "perdidas", perd);
 
   if (cantOperadoresTest > 100) {
-    console.log("Max ops");
+    //console.log("Max ops");
     alert(
       "Ni siquiera con 100 operadores se alcanza a atender todos los llamados en el plazo, aumentá el margen admitido para obtener una respuesta exacta."
     );
@@ -219,20 +219,20 @@ function auxCalcNeededOps() {
     ) {
       cantOperadoresTest =
         cantOperadoresTest * 2 > 100 ? 100 : cantOperadoresTest * 2;
-      console.log("probando con doble de ops");
+      //console.log("probando con doble de ops");
       calcNeededOps();
     } else {
       cantOperadoresTest++;
-      console.log("probando con un op más");
+      //console.log("probando con un op más");
       calcNeededOps();
     }
   } else if (esp <= esperaMaxDeseada && perd === 0) {
-    console.log("cortar?", cantOperadoresTest, triedOpsValues);
+    //console.log("cortar?", cantOperadoresTest, triedOpsValues);
     if (triedOpsValues.includes(cantOperadoresTest--)) {
       document.getElementById("cantOperadores").value = cantOperadoresTest;
     } else {
       cantOperadoresTest--;
-      console.log("probando con un op menos");
+      //console.log("probando con un op menos");
     }
   } else {
     alert("No se pudo obtener una respuesta");
@@ -355,7 +355,6 @@ function clearContainers() {
 function startup() {
   startButton.disabled = true;
   startButton.innerText = "Calculando...";
-  console.log("aa");
 }
 
 function reset() {
