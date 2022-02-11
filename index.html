@@ -52,7 +52,7 @@
                 <input class="form-control" type="number" id="minDuracion" value="30" min="1" max="100">
             </label class="form-label">
             <label class="form-label">Duración máxima de la llamada (2-1.000 seg)
-                <input class="form-control" type="number" id="maxDuracion" value="100" min="2" max="1000">
+                <input class="form-control" type="number" id="maxDuracion" value="60" min="2" max="1000">
             </label>
         </div>
     </div>
@@ -72,35 +72,29 @@
     <h3>Llamadas por categoría</h3>
     <div class="container-fluid">
         <div class="row">
-            <div class="col">
+            <div class="col-lg">
                 <h4 class="text-center"><button data-bs-toggle="collapse" data-bs-target="#contenedorLlamadasEnEspera"
                         aria-expanded="true" aria-controls="collapse">+</button>Llamadas que estuvieron en espera</h4>
+                <div class="text-center collapse show" id="contenedorLlamadasEnEspera"></div>
+
             </div>
 
-            <div class="col">
+            <div class="col-lg">
                 <h4 class="text-center"><button data-bs-toggle="collapse" data-bs-target="#contenedorLlamadasEnCurso"
                         aria-expanded="true" aria-controls="collapse">+</button>Llamadas que se cursaron (tachadas si
                     finalizadas)</h4>
+                <div class="text-center collapse show" id="contenedorLlamadasEnCurso"></div>
+
             </div>
 
-            <div class="col">
+            <div class="col-lg">
                 <h4 class="text-center"><button data-bs-toggle="collapse" data-bs-target="#contenedorLlamadasPerdidas"
                         aria-expanded="true" aria-controls="collapse">+</button>Llamadas que no se llegaron a atender
                 </h4>
-            </div>
-
-        </div>
-        <div class="row">
-
-            <div class="col">
-                <div class="text-center collapse show" id="contenedorLlamadasEnEspera"></div>
-            </div>
-            <div class="col">
-                <div class="text-center collapse show" id="contenedorLlamadasEnCurso"></div>
-            </div>
-            <div class="col">
                 <div class="text-center collapse show" id="contenedorLlamadasPerdidas"></div>
+
             </div>
+
         </div>
     </div>
     <hr>
