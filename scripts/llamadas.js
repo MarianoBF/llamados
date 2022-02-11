@@ -51,7 +51,9 @@ function modeSelect(value) {
 // variables
 let cantOperadoresTest = 1;
 let triedOpsValues = [];
-let checkError = '';
+let checkError = "";
+let agregando;
+
 // functions
 
 function getValues() {
@@ -94,17 +96,25 @@ function checkValues(
     esperaMaxDeseada < 1 ||
     esperaMaxDeseada > 1000
   ) {
-    checkError = 'Hay un problema con los números ingresados, podés manejarte dentro de los rangos permitidos usando los controles de cada campo'
+    checkError =
+      "Hay un problema con los números ingresados, podés manejarte dentro de los rangos permitidos usando los controles de cada campo";
     return true;
   }
 
   if (plazo < cantLlamadas * 3) {
-    checkError = 'La duración de la sesión para atender debe al menos triplicar la cantidad de llamadas'
-    return true
+    checkError =
+      "La duración de la sesión para atender debe al menos triplicar la cantidad de llamadas";
+    return true;
   }
 }
 
+// Calcular resultados con cantidad de operadores indicada
 function calcMaxWait() {
+  startup()
+  setTimeout(auxCalcMaxWait, 0)
+}
+
+function auxCalcMaxWait() {
   const { cantLlamadas, minDuracion, maxDuracion, plazo, cantOperadores } =
     getValues();
   const check = checkValues(
@@ -115,9 +125,8 @@ function calcMaxWait() {
     cantOperadores
   );
   if (check) {
-    alert(
-      checkError
-    );
+    alert(checkError);
+    reset();
     return;
   }
 
@@ -140,9 +149,16 @@ function calcMaxWait() {
   tEsperaMax.value = esp;
   cantLlam.innerText = cantLlamadas + " / " + atend + " / " + perd;
   contenedorOpciones.classList.remove("show");
+  reset();
 }
 
+// Calcular cantidad de operadores requerida para cumplir con la espera máxima deseada
 function calcNeededOps() {
+  startup()
+  setTimeout(auxCalcNeededOps, 0)
+}
+
+function auxCalcNeededOps() {
   const { cantLlamadas, minDuracion, maxDuracion, plazo, esperaMaxDeseada } =
     getValues();
   const check = checkValues(
@@ -156,6 +172,7 @@ function calcNeededOps() {
     alert(
       "Hay un problema con los números ingresados, podés manejarte dentro de los rangos permitidos (aclarados en cada opción) usando los controles de cada campo"
     );
+    reset();
     return;
   }
   console.log("with q operadores", cantOperadoresTest);
@@ -187,10 +204,11 @@ function calcNeededOps() {
     alert(
       "Ni siquiera con 100 operadores se alcanza a atender todos los llamados en el plazo, aumentá el margen admitido para obtener una respuesta exacta."
     );
-      clearContainers();
+    clearContainers();
     cantOps.innerText = "";
     tEspera.innerText = "";
     cantLlam.innerText = "";
+    reset();
     return;
   }
 
@@ -220,6 +238,7 @@ function calcNeededOps() {
     alert("No se pudo obtener una respuesta");
   }
   cantOperadoresTest < 101 ? contenedorOpciones.classList.remove("show") : null;
+  reset();
 }
 
 function calcularLlamadas(llamadas, operadores, plazo) {
@@ -318,7 +337,6 @@ function calcularLlamadas(llamadas, operadores, plazo) {
     contenedorPerdidas.append(dibujarPerdida(llamada));
   }
 
-
   return [
     maxOperadoresOcupados,
     esperaMax,
@@ -332,4 +350,15 @@ function clearContainers() {
   contenedorEnEspera.innerHTML = "";
   contenedorLlamadas.innerHTML = "";
   contenedorPerdidas.innerHTML = "";
+}
+
+function startup() {
+  startButton.disabled = true;
+  startButton.innerText = "Calculando...";
+  console.log("aa");
+}
+
+function reset() {
+  startButton.disabled = false;
+  startButton.innerText = "Generar";
 }
