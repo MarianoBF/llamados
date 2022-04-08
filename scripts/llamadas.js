@@ -86,13 +86,13 @@ function checkValues(
     cantOperadores.value < 1 ||
     cantOperadores.value > 100 ||
     cantLlamadas < 1 ||
-    cantLlamadas > 10000 ||
+    cantLlamadas > 1000 ||
     minDuracion < 1 ||
     minDuracion > 100 ||
     maxDuracion < 2 ||
-    maxDuracion > 1000 ||
+    maxDuracion > 500 ||
     plazo < 1 ||
-    plazo > 40000 ||
+    plazo > 4000 ||
     esperaMaxDeseada < 1 ||
     esperaMaxDeseada > 1000
   ) {
